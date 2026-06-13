@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curated Engineering Roadmaps</title>
+    <!-- Google Fonts: Plus Jakarta Sans for body, Space Grotesk for headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Warm Paper Mode (Default Theme) */
+            --bg-main: #fbf9f6;
+            --bg-card: #ffffff;
+            --border-card: #ebdcc9;
+            --text-main: #342c26;
+            --text-muted: #7a6b5f;
+            --accent-primary: #9b7e61;
+            --accent-hover: #7d654d;
+            --shadow-card: 0 4px 24px rgba(155, 126, 97, 0.04);
+            --header-border: #ebdcc9;
+        }
+
+        [data-theme="dark"] {
+            /* Midnight Obsidian Mode */
+            --bg-main: #0c0f18;
+            --bg-card: #121724;
+            --border-card: #1d273a;
+            --text-main: #e2e8f0;
+            --text-muted: #8a99ad;
+            --accent-primary: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
+            --header-border: #1d273a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.25s ease, color 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .btn-toggle {
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        /* Top Sticky Header */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--bg-main);
+            border-bottom: 1px solid var(--header-border);
+            padding: 18px 24px;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            margin: 0;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-section span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border: 1px solid var(--border-card);
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .theme-toggle-btn {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-card);
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: var(--accent-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 800px;
+            margin: 80px auto 40px auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin: 0 0 16px 0;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        /* Creator Tag */
+        .creator-tag {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            background-color: rgba(155, 126, 97, 0.06);
+            padding: 4px 12px;
+            border-radius: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        [data-theme="dark"] .creator-tag {
+            background-color: rgba(56, 189, 248, 0.06);
+        }
+
+        /* Grid Section */
+        .portal-grid {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px 80px 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            flex-grow: 1;
+        }
+
+        @media (max-width: 768px) {
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Card Designs */
+        .roadmap-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .roadmap-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="dark"] .roadmap-card:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: rgba(155, 126, 97, 0.08);
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        [data-theme="dark"] .card-icon {
+            background-color: rgba(56, 189, 248, 0.08);
+        }
+
+        .card-status {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-color: rgba(46, 125, 50, 0.08);
+            color: #2e7d32;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        .card-body h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            margin: 0 0 10px 0;
+            color: var(--text-main);
+        }
+
+        .card-body p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin: 0 0 25px 0;
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+        }
+
+        .card-footer svg {
+            transition: transform 0.2s ease;
+        }
+
+        .roadmap-card:hover .card-footer svg {
+            transform: translateX(4px);
+        }
+
+        /* Coming Soon Card styling */
+        .roadmap-card.coming-soon {
+            opacity: 0.65;
+            border-style: dashed;
+            cursor: default;
+        }
+
+        .roadmap-card.coming-soon:hover {
+            transform: none;
+            border-color: var(--border-card);
+            box-shadow: var(--shadow-card);
+        }
+
+        .roadmap-card.coming-soon .card-icon {
+            background-color: transparent;
+            border: 1px dashed var(--border-card);
+            color: var(--text-muted);
+        }
+
+        .roadmap-card.coming-soon .card-status {
+            background-color: rgba(122, 107, 95, 0.08);
+            color: var(--text-muted);
+        }
+
+        .roadmap-card.coming-soon .card-footer {
+            color: var(--text-muted);
+        }
+
+        /* Footer styling */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid var(--header-border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            background-color: var(--bg-card);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <div class="sticky-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>Roadmaps <span>Portal</span></h1>
+            </div>
+            <button class="theme-toggle-btn btn-toggle" id="theme-toggle-btn" onclick="toggleTheme()">
+                <span id="theme-toggle-icon">🌙</span> Theme
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h2>Interactive Developer Roadmaps</h2>
+        <p>Step-by-step masterclasses, prompt templates, and projects designed to accelerate your engineering career.</p>
+        <div class="creator-tag">Created by TannyBans</div>
+    </div>
+
+    <!-- Portal Grid -->
+    <div class="portal-grid">
+        
+        <!-- AI / LLM Card -->
+        <a href="ai.html" class="roadmap-card">
+            <div>
+                <div class="card-header">
+                    <div class="card-icon">🧠</div>
+                    <span class="card-status">Ready</span>
+                </div>
+                <div class="card-body">
+                    <h3>AI & LLM Core</h3>
+                    <p>From transformer mechanics and prompt engineering system design to building fully autonomous agent networks and tracing metrics.</p>
+                </div>
+            </div>
+            <div class="card-footer">
+                Explore Roadmap
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+        </a>
+
+        <!-- Distributed Systems Card -->
+        <a href="systems.html" class="roadmap-card">
+            <div>
+                <div class="card-header">
+                    <div class="card-icon">🌐</div>
+                    <span class="card-status">Ready</span>
+                </div>
+                <div class="card-body">
+                    <h3>Distributed Systems</h3>
+                    <p>Master replication quorums, consensus protocols (Raft), database storage models (B-Trees/LSM), Kafka event streams, and SRE monitoring.</p>
+                </div>
+            </div>
+            <div class="card-footer">
+                Explore Roadmap
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+        </a>
+
+        <!-- Future placeholder card (e.g. Databases & Cache Systems) -->
+        <div class="roadmap-card coming-soon">
+            <div>
+                <div class="card-header">
+                    <div class="card-icon">💾</div>
+                    <span class="card-status">Planned</span>
+                </div>
+                <div class="card-body">
+                    <h3>Database Internals</h3>
+                    <p>Deep-dive into write-ahead logs, transaction isolation levels, query planner optimization, indexing structures, and custom storage engines.</p>
+                </div>
+            </div>
+            <div class="card-footer">Coming Soon</div>
+        </div>
+
+        <!-- Future placeholder card (e.g. System Design Interview) -->
+        <div class="roadmap-card coming-soon">
+            <div>
+                <div class="card-header">
+                    <div class="card-icon">🏗️</div>
+                    <span class="card-status">Planned</span>
+                </div>
+                <div class="card-body">
+                    <h3>Advanced System Design</h3>
+                    <p>Deconstruct large scale architectures: rate limiters, web crawlers, payment processors, chat backends, and video streaming networks.</p>
+                </div>
+            </div>
+            <div class="card-footer">Coming Soon</div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Curated Engineering Roadmaps &copy; 2026</p>
+        <p>Created by TannyBans</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('roadmap-theme-portal', newTheme);
+            updateThemeToggleButton(newTheme);
+        }
+
+        function updateThemeToggleButton(theme) {
+            const icon = document.getElementById('theme-toggle-icon');
+            if (theme === 'dark') {
+                icon.textContent = '☀️';
+            } else {
+                icon.textContent = '🌙';
+            }
+        }
+
+        // Initialize theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('roadmap-theme-portal') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeToggleButton(savedTheme);
+        });
+    </script>
+</body>
+</html>
