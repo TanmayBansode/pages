@@ -11,7 +11,31 @@ Chapters are referenced throughout. There's no substitute for it.
 
 ---
 
-## Phase 0 — What Actually Happens on One Machine
+> Dependency-ordered. Don't skip a stage. Within a stage, go parallel where noted.  
+> Each topic has: an Ask Claude prompt, reading materials, and a hands-on project.
+
+## Dependency Map (quick reference)
+
+```
+0. Single-Machine Basics (The Root)
+          ↓
+1. Distributed Hard Problems
+       /  |  \
+      /   |   \
+     /    |    \
+    ↓     ↓     ↓
+2. Data  3. Msg  4. Infra      ← all three tracks in parallel
+    \     /       |
+     ↓   ↓        |
+5. Patterns       |
+      \           /
+       ↓         ↓
+  6. System Design Practice
+```
+
+---
+
+## Stage 0 — Single-Machine Fundamentals (The Root)
 
 Before you think about distributing anything, close the gaps fullstack
 development tends to leave in how machines and I/O actually work.
@@ -64,7 +88,7 @@ version is the lesson.
 
 ### How databases store data (B-trees vs LSM trees)
 
-This is context for Phase 2. You don't need to go deep here — just build
+This is context for Stage 2. You don't need to go deep here — just build
 the mental model.
 
 Ask Claude:
@@ -81,12 +105,12 @@ Build:
 Nothing hands-on needed yet. After reading, write a one-paragraph answer
 to: "If I'm building a system that does 100k writes/sec and relatively few
 reads, which storage engine model would I prefer and why?" Keep it to
-yourself for now — revisit it in Phase 2 after you've used Postgres and
+yourself for now — revisit it in Stage 2 after you've used Postgres and
 looked at Cassandra.
 
 ---
 
-## Phase 1 — Why Distributed Systems Are Hard
+## Stage 1 — Distributed Systems Hard Problems (Depends on Stage 0)
 
 The conceptual foundation of everything that follows. Take 3 weeks here,
 not 1. The people who rush this phase learn the tools without understanding
@@ -226,7 +250,7 @@ If you want to go deeper: https://pdos.csail.mit.edu/6.824/labs/lab-raft.html
 
 ---
 
-## Phase 2 — Scaling Data
+## Stage 2 — Scaling Data (Parallel Track, Depends on Stage 1)
 
 ---
 
@@ -312,10 +336,10 @@ Two things:
 
 ---
 
-## Phase 3 — Messaging and Event-Driven Systems
+## Stage 3 — Messaging & Event-Driven Systems (Parallel Track, Depends on Stage 1)
 
 Bloomberg's data is fundamentally event-driven. Prices change, orders fill,
-news breaks — these are events happening in real time. This phase directly
+news breaks — these are events happening in real time. This stage directly
 maps to how Bloomberg's data pipelines are architected.
 
 ---
@@ -399,7 +423,7 @@ and see what the windowing system does with it.
 
 ---
 
-## Phase 4 — Infrastructure You'll Actually Encounter
+## Stage 4 — Infrastructure You'll Actually Encounter (Parallel Track, Depends on Stage 1)
 
 You won't manage the cluster. But you'll deploy to one, debug services
 running in it, and need to understand why things behave the way they do.
@@ -485,7 +509,7 @@ This takes an afternoon and makes the whole observability picture real.
 
 ---
 
-## Phase 5 — Patterns at Scale
+## Stage 5 — Patterns at Scale (Depends on Stage 2 & Stage 3)
 
 Standard solutions to standard problems. Once you know them, you recognize
 them in every architecture discussion and every engineering blog post.
@@ -599,7 +623,7 @@ you want from the same events without changing the write side.
 
 ---
 
-## Phase 6 — System Design Practice
+## Stage 6 — System Design Practice (Depends on Stage 4 & Stage 5)
 
 By this point you know the pieces. Now practice assembling them.
 
@@ -695,12 +719,12 @@ http://highscalability.com/
 
 ## Timeline
 
-Phase 0: 1 week
-Phase 1: 3 weeks  — don't compress this
-Phase 2: 2 weeks
-Phase 3: 2 weeks
-Phase 4: 1.5 weeks
-Phase 5: 1.5 weeks
-Phase 6: ongoing
+Stage 0: 1 week
+Stage 1: 3 weeks  — don't compress this
+Stage 2: 2 weeks
+Stage 3: 2 weeks
+Stage 4: 1.5 weeks
+Stage 5: 1.5 weeks
+Stage 6: ongoing
 
 ~12 weeks at 1–2 hours/day. 8 weeks fully immersed.

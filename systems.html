@@ -1,0 +1,2980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distributed Systems Roadmap</title>
+    <!-- Google Fonts: Plus Jakarta Sans for UI/Content, Space Grotesk for Headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Warm Paper Mode (Default Theme) - Soothing & Premium Warmth */
+            --bg-main: #fbf9f6;
+            --bg-card: #ffffff;
+            --bg-code: #f5ede0;
+            --border-card: #ebdcc9;
+            --text-main: #342c26;
+            --text-muted: #7a6b5f;
+            --accent-primary: #9b7e61;
+            --accent-hover: #7d654d;
+            --accent-secondary: #d4ae83;
+            --success: #2e7d32;
+            --success-light: #e8f5e9;
+            --lock-overlay: rgba(251, 249, 246, 0.9);
+            --header-border: #ebdcc9;
+            --shadow-card: 0 4px 24px rgba(155, 126, 97, 0.04);
+            --shadow-glow: 0 0 20px rgba(155, 126, 97, 0.1);
+            
+            --circle-bg: #ebdcc9;
+            --circle-text: #7a6b5f;
+            --line-color: #ebdcc9;
+        }
+
+        [data-theme="dark"] {
+            /* Midnight Obsidian Dark Mode - Low-Contrast Soothing Dark */
+            --bg-main: #0c0f18;
+            --bg-card: #131926;
+            --bg-code: #070a10;
+            --border-card: #1d273a;
+            --text-main: #e2e8f0;
+            --text-muted: #8a99ad;
+            --accent-primary: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --accent-secondary: #6366f1;
+            --success: #10b981;
+            --success-light: rgba(16, 185, 129, 0.08);
+            --lock-overlay: rgba(12, 15, 24, 0.92);
+            --header-border: #1e293b;
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.15);
+
+            --circle-bg: #1d273a;
+            --circle-text: #8a99ad;
+            --line-color: #1d273a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.8;
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .btn-toggle, .btn-copy, .btn-scroll-top, .custom-checkbox, .task-item-label, .graph-node circle, .graph-node text, .graph-edge {
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, stroke 0.2s ease, fill 0.2s ease, opacity 0.2s ease;
+        }
+
+        .topic-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Top Sticky Header */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--bg-main);
+            border-bottom: 1px solid var(--header-border);
+            padding: 18px 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-section h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.45rem;
+            margin: 0;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-section p {
+            margin: 4px 0 0 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .controls-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-card);
+        }
+
+        .progress-bar-container {
+            width: 100px;
+            height: 6px;
+            background-color: var(--bg-code);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .btn-toggle {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            box-shadow: var(--shadow-card);
+        }
+
+        .btn-toggle:hover {
+            border-color: var(--accent-primary);
+        }
+
+        /* Hero and intro section */
+        .hero {
+            max-width: 850px;
+            margin: 60px auto 40px auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            line-height: 1.25;
+            color: var(--text-main);
+            letter-spacing: -0.03em;
+        }
+
+        .hero p.lead {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin: 0 auto;
+            max-width: 650px;
+        }
+
+        /* Interactive Map Visualization */
+        .map-section {
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .map-section h3 {
+            margin-top: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--accent-primary);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .interactive-graph {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .interactive-graph svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* SVG States styling */
+        .graph-node {
+            cursor: pointer;
+        }
+        .graph-node circle {
+            fill: var(--circle-bg);
+            stroke: var(--border-card);
+            stroke-width: 2px;
+            transition: fill 0.3s, stroke 0.3s, opacity 0.3s;
+        }
+        .graph-node text {
+            fill: var(--circle-text);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            transition: fill 0.3s, opacity 0.3s;
+        }
+        .graph-edge {
+            stroke: var(--line-color);
+            stroke-width: 2px;
+            fill: none;
+            transition: stroke 0.3s, stroke-width 0.3s;
+        }
+        .graph-node-label {
+            font-size: 10px;
+            fill: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* SVG Glows and highlights based on status */
+        .graph-node.active circle {
+            stroke: var(--accent-primary);
+            fill: var(--bg-code);
+        }
+        .graph-node.active text {
+            fill: var(--accent-primary);
+        }
+        .graph-node.completed circle {
+            fill: var(--success);
+            stroke: var(--success);
+        }
+        .graph-node.completed text {
+            fill: #ffffff;
+        }
+        .graph-node.locked circle {
+            opacity: 0.4;
+            stroke-dasharray: 4;
+        }
+        .graph-node.locked text {
+            opacity: 0.4;
+        }
+        .graph-edge.active {
+            stroke: var(--accent-primary);
+            stroke-width: 2.5px;
+        }
+        .graph-edge.completed {
+            stroke: var(--success);
+            stroke-width: 2.5px;
+        }
+
+        /* Container Layout for Roadmap */
+        .roadmap-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 100px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        /* Stage Styling */
+        .stage-wrapper {
+            position: relative;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-card);
+            content-visibility: auto;
+            contain-intrinsic-size: 600px;
+        }
+
+        .stage-wrapper.locked {
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .stage-lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--lock-overlay);
+            z-index: 10;
+            border-radius: 20px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            pointer-events: none;
+        }
+
+        .stage-wrapper.locked .stage-lock-overlay {
+            display: flex;
+            pointer-events: auto;
+        }
+
+        .lock-icon-large {
+            font-size: 2.4rem;
+            color: var(--text-muted);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .lock-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: var(--text-main);
+            text-align: center;
+            font-size: 1.15rem;
+        }
+
+        .lock-subtext {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border-card);
+            padding-bottom: 24px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stage-badge {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 6px;
+        }
+
+        .stage-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            margin: 0;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .stage-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 10px;
+            max-width: 850px;
+            line-height: 1.7;
+        }
+
+        .stage-progress-badge {
+            background-color: var(--bg-code);
+            border: 1px solid var(--border-card);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Parallel Grid Layout */
+        .parallel-tracks-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+        }
+
+        .parallel-tracks-container.two-columns {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 992px) {
+            .parallel-tracks-container, .parallel-tracks-container.two-columns {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        .track-lane {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+        }
+
+        .track-banner {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(155, 126, 97, 0.05), rgba(212, 174, 131, 0.05));
+            border: 1px solid var(--border-card);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .track-banner h4 {
+            margin: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent-primary);
+        }
+
+
+
+        .topic-card:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .card-header-bar {
+            padding: 24px 28px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            gap: 15px;
+        }
+
+        .card-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+
+        /* Custom Card Checkbox */
+        .card-checkbox-wrapper {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .card-checkbox-wrapper input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .custom-checkbox {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            background-color: var(--bg-code);
+            border: 2px solid var(--accent-primary);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .card-checkbox-wrapper input:checked ~ .custom-checkbox {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+
+        .custom-checkbox::after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 7px;
+            top: 3px;
+            width: 6px;
+            height: 11px;
+            border: solid white;
+            border-width: 0 2.5px 2.5px 0;
+            transform: rotate(45deg);
+        }
+
+        .card-checkbox-wrapper input:checked ~ .custom-checkbox::after {
+            display: block;
+        }
+
+        .topic-titles h4 {
+            margin: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+        }
+
+        .topic-titles p {
+            margin: 4px 0 0 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .card-header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-progress-indicator {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background-color: var(--bg-code);
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .chevron-icon {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-muted);
+            fill: none;
+            stroke-width: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .topic-card.open .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Card Content (Accordion panel) */
+        .card-content-panel {
+            display: none;
+            border-top: 0px solid transparent;
+        }
+
+        .topic-card.open .card-content-panel {
+            display: block;
+            border-top: 1px solid var(--border-card);
+        }
+
+        .card-inner-body {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Claude Prompt Box Styling - Auto Height Soothing Layout */
+        .prompt-container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            background-color: var(--bg-code);
+            overflow: hidden;
+        }
+
+        .prompt-header {
+            background-color: rgba(155, 126, 97, 0.04);
+            border-bottom: 1px solid var(--border-card);
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prompt-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-primary);
+        }
+
+        .btn-copy {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .btn-copy:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .prompt-body {
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: var(--text-main);
+            margin: 0;
+            max-height: none;
+            overflow-y: visible;
+            overflow-x: visible;
+        }
+
+        /* Tasks & Resources Lists */
+        .task-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .task-item-label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            gap: 14px;
+            font-size: 0.95rem;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+        }
+
+        .task-item-label:hover {
+            background-color: rgba(155, 126, 97, 0.03);
+            border-color: var(--border-card);
+        }
+
+        .task-item-label input[type="checkbox"] {
+            margin-top: 5px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--success);
+            flex-shrink: 0;
+        }
+
+        .task-item-text {
+            color: var(--text-main);
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .task-item-text a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1.5px solid rgba(155, 126, 97, 0.15);
+        }
+
+        .task-item-text a:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .task-type-badge {
+            font-size: 0.65rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 3px 7px;
+            border-radius: 4px;
+            margin-right: 8px;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .badge-read {
+            background-color: rgba(99, 102, 241, 0.08);
+            color: #6366f1;
+        }
+
+        .badge-watch {
+            background-color: rgba(245, 158, 11, 0.08);
+            color: #d97706;
+        }
+
+        .badge-build {
+            background-color: rgba(239, 68, 68, 0.08);
+            color: #ef4444;
+        }
+
+        .badge-interact {
+            background-color: rgba(16, 185, 129, 0.08);
+            color: #10b981;
+        }
+
+        .badge-ask {
+            background-color: rgba(34, 211, 238, 0.08);
+            color: var(--accent-primary);
+        }
+
+        /* Embedding Tables beautifully */
+        .latency-table-wrapper {
+            overflow-x: auto;
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .latency-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        .latency-table th, .latency-table td {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border-card);
+        }
+
+        .latency-table th {
+            background-color: var(--bg-code);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .latency-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .latency-table code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--bg-code);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        /* Footer styling */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            border-top: 1px solid var(--border-card);
+            background-color: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer p {
+            margin: 6px 0;
+        }
+
+        /* Keyframe animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Quick Floating Actions */
+        .floating-progress-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-scroll-top {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .btn-scroll-top:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* Help Alert */
+        .setup-guide {
+            max-width: 850px;
+            margin: 0 auto 40px auto;
+            background-color: var(--success-light);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 12px;
+            padding: 18px 24px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .setup-guide-icon {
+            font-size: 1.4rem;
+            color: var(--success);
+        }
+
+        .setup-guide-content h4 {
+            margin: 0 0 6px 0;
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.05rem;
+        }
+
+        .setup-guide-content p {
+            margin: 0;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Focus mode indicators for parallel tracks */
+        .track-focus-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-top: 6px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            background-color: var(--bg-code);
+            border: 1px solid var(--border-card);
+        }
+
+        .track-focus-toggle:hover {
+            color: var(--text-main);
+            border-color: var(--accent-primary);
+        }
+
+        .track-lane.dimmed {
+            opacity: 0.2;
+        }
+
+        .track-lane.focused {
+            transform: scale(1.01);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <div class="sticky-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                    Systems Core
+                </h1>
+                <p>Distributed Systems Roadmap</p>
+            </div>
+            
+            <div class="controls-section">
+                <div class="progress-box">
+                    <span>Roadmap Progress:</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="overall-progress-bar"></div>
+                    </div>
+                    <span id="overall-progress-text">0%</span>
+                </div>
+
+                <button class="btn-toggle" id="btn-lock-toggle" onclick="toggleDependencyLocking()">
+                    <span id="lock-toggle-icon">🔒</span>
+                    <span id="lock-toggle-label">Locks Enabled</span>
+                </button>
+
+                <button class="btn-toggle" onclick="toggleTheme()">
+                    <span id="theme-toggle-icon">🌙</span>
+                    <span>Theme</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h2>Distributed Systems</h2>
+        <p class="lead">From Single Machine Fundamentals to Multi-Agent Architectures and Production Scale Systems</p>
+    </div>
+
+    <!-- Setup Info / Book Recommendation -->
+    <div class="setup-guide">
+        <span class="setup-guide-icon">📚</span>
+        <div class="setup-guide-content">
+            <h4>Mandatory Reading Material</h4>
+            <p>Buy or acquire <strong>Designing Data-Intensive Applications (DDIA)</strong> by Martin Kleppmann. Its chapters are referenced as absolute prerequisites throughout this roadmap. There is no substitute for it.</p>
+        </div>
+    </div>
+
+    <!-- Interactive Map Visualization -->
+    <div class="map-section">
+        <h3>Dependency Visualizer Map</h3>
+        <div class="interactive-graph">
+            <!-- Inline SVG representing the dependency tree -->
+            <svg viewBox="0 0 600 300" width="100%" height="280">
+                <defs>
+                    <marker id="arrow" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--border-card)" />
+                    </marker>
+                    <marker id="arrow-active" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-primary)" />
+                    </marker>
+                    <marker id="arrow-completed" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--success)" />
+                    </marker>
+                </defs>
+
+                <!-- Connection Lines (Edges) -->
+                <path d="M 300,50 L 300,100" class="graph-edge" id="edge-0-1" marker-end="url(#arrow)" />
+                <path d="M 300,100 L 150,160" class="graph-edge" id="edge-1-2" marker-end="url(#arrow)" />
+                <path d="M 300,100 L 300,160" class="graph-edge" id="edge-1-3" marker-end="url(#arrow)" />
+                <path d="M 300,100 L 450,160" class="graph-edge" id="edge-1-4" marker-end="url(#arrow)" />
+                <path d="M 150,160 L 250,220" class="graph-edge" id="edge-2-5" marker-end="url(#arrow)" />
+                <path d="M 300,160 L 290,220" class="graph-edge" id="edge-3-5" marker-end="url(#arrow)" />
+                <path d="M 290,220 L 300,280" class="graph-edge" id="edge-5-6" marker-end="url(#arrow)" />
+                <path d="M 450,160 L 310,280" class="graph-edge" id="edge-4-6" marker-end="url(#arrow)" />
+
+                <!-- Nodes -->
+                <g class="graph-node active" id="map-node-0" onclick="scrollToStage('stage-0')">
+                    <circle cx="300" cy="50" r="18" />
+                    <text x="300" y="50">0</text>
+                    <text x="300" y="25" class="graph-node-label">Root (Machine Basics)</text>
+                </g>
+
+                <g class="graph-node locked" id="map-node-1" onclick="scrollToStage('stage-1')">
+                    <circle cx="300" cy="100" r="18" />
+                    <text x="300" y="100">1</text>
+                    <text x="380" y="100" class="graph-node-label">Distributed Hard Problems</text>
+                </g>
+
+                <g class="graph-node locked" id="map-node-2" onclick="scrollToStage('stage-2')">
+                    <circle cx="150" cy="160" r="18" />
+                    <text x="150" y="160">2</text>
+                    <text x="150" y="135" class="graph-node-label">Scaling Data</text>
+                </g>
+
+                <g class="graph-node locked" id="map-node-3" onclick="scrollToStage('stage-3')">
+                    <circle cx="300" cy="160" r="18" />
+                    <text x="300" y="160">3</text>
+                    <text x="300" y="185" class="graph-node-label">Messaging & Logs</text>
+                </g>
+
+                <g class="graph-node locked" id="map-node-4" onclick="scrollToStage('stage-4')">
+                    <circle cx="450" cy="160" r="18" />
+                    <text x="450" y="160">4</text>
+                    <text x="450" y="135" class="graph-node-label">Infrastructure</text>
+                </g>
+
+                <g class="graph-node locked" id="map-node-5" onclick="scrollToStage('stage-5')">
+                    <circle cx="290" cy="220" r="18" />
+                    <text x="290" y="220">5</text>
+                    <text x="220" y="220" class="graph-node-label">Patterns at Scale</text>
+                </g>
+
+                <g class="graph-node locked" id="map-node-6" onclick="scrollToStage('stage-6')">
+                    <circle cx="300" cy="280" r="18" />
+                    <text x="300" y="280">6</text>
+                    <text x="300" y="295" class="graph-node-label">System Design</text>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Roadmap Content Container -->
+    <div class="roadmap-container">
+
+        <!-- STAGE 0 -->
+        <div class="stage-wrapper" id="stage-0" data-stage="0">
+            <div class="stage-header">
+                <div>
+                    <div class="stage-badge">Core Foundation</div>
+                    <h3 class="stage-title">Stage 0 — Single-Machine Fundamentals</h3>
+                    <div class="stage-desc">Before thinking about distributed architectures, understand memory hierarchies, logical storage, and thread concurrency boundaries on a single node.</div>
+                </div>
+                <div class="stage-progress-badge" id="progress-stage-0">0% Done</div>
+            </div>
+
+            <!-- Topic 1 -->
+            <div class="topic-card" id="card-s0-t1">
+                <div class="card-header-bar" onclick="toggleCard('card-s0-t1')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s0-t1" onchange="toggleEntireNode('card-s0-t1', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>1. The Latency Numbers</h4>
+                            <p>Understand storage delays, hardware tiers, and serialization costs</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s0-t1">0/3 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>These numbers are not academic details; they are the architectural driver behind every single decision in this roadmap. Memorize the tiers and scales.</p>
+                        
+                        <div class="latency-table-wrapper">
+                            <table class="latency-table">
+                                <thead>
+                                    <tr>
+                                        <th>Operation / Tier</th>
+                                        <th>Latency duration</th>
+                                        <th>Physical Analogy (Normalized to 1s L1 Cache)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>L1 cache reference</td>
+                                        <td><code>~0.5 ns</code></td>
+                                        <td>1 second (picking up a book on your desk)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>L2 cache reference</td>
+                                        <td><code>~7 ns</code></td>
+                                        <td>14 seconds</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Main memory access (RAM)</td>
+                                        <td><code>~100 ns</code></td>
+                                        <td>3.3 minutes (walking to a bookshelf in your room)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Solid-state drive read (SSD)</td>
+                                        <td><code>~100 µs</code></td>
+                                        <td>2.3 days (mailing a request to another building)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Network roundtrip (Same Datacenter)</td>
+                                        <td><code>~500 µs</code></td>
+                                        <td>11.5 days (sending a parcel via domestic courier)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Network roundtrip (Cross-continent)</td>
+                                        <td><code>~150 ms</code></td>
+                                        <td>9.5 years (loading a cargo ship from China)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s0-t1')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s0-t1">I'm a fullstack developer learning systems performance. Explain the memory and storage hierarchy: L1/L2/L3 cache, RAM, SSD, and network — what each is, how fast it is, and why the difference matters. Give me 5 real engineering decisions (caching, batching, serialization, etc.) that exist specifically because of these latency gaps. Use concrete numbers.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s0-t1-1" onchange="onTaskChange('card-s0-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Run the deep-dive prompt and study the 5 real engineering decisions.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s0-t1-2" onchange="onTaskChange('card-s0-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Bookmark and review Jeff Dean's latency gist: <a href="https://gist.github.com/jboner/2841832" target="_blank">Latency Numbers Every Programmer Should Know</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s0-t1-3" onchange="onTaskChange('card-s0-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Take any app you've built. List every DB/API call, label its tier (RAM, SSD, network), and identify bottleneck risks in hot paths.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 2 -->
+            <div class="topic-card" id="card-s0-t2">
+                <div class="card-header-bar" onclick="toggleCard('card-s0-t2')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s0-t2" onchange="toggleEntireNode('card-s0-t2', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>2. I/O Models: Blocking, Non-blocking, Async</h4>
+                            <p>Deep dive into thread blocks, events loops, and kernel I/O handling</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s0-t2">0/3 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Under heavy concurrency, having threads block on I/O causes huge context switching overhead. This topic explores async execution mechanics.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s0-t2')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s0-t2">I know async/await from JavaScript and Python but don't understand what's happening underneath. Explain blocking I/O, non-blocking I/O, and async event-driven I/O from first principles. Show how each handles 100 concurrent connections differently using a simple example. Explain why Nginx chose an event loop over a thread-per-connection model, and what 'context switching overhead' actually means.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s0-t2-1" onchange="onTaskChange('card-s0-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Ask the detailed I/O query and review Nginx's architectural choices.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s0-t2-2" onchange="onTaskChange('card-s0-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read Nginx's engineering article: <a href="https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/" target="_blank">Inside NGINX: How We Designed for Performance & Scale</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s0-t2-3" onchange="onTaskChange('card-s0-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Write a TCP echo server in Python twice: once using blocking raw threads, once using <code>asyncio</code>. Run connections load test using <code>hey</code>/<code>hurl</code>.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 3 -->
+            <div class="topic-card" id="card-s0-t3">
+                <div class="card-header-bar" onclick="toggleCard('card-s0-t3')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s0-t3" onchange="toggleEntireNode('card-s0-t3', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>3. Database Storage Engines (B-Trees vs LSM Trees)</h4>
+                            <p>Understand how structured database engines write and read from storage</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s0-t3">0/3 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Databases optimize disk layout depending on whether they favor low-latency reads (B-Trees) or write-heavy ingestion (LSM-Trees).</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s0-t3')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s0-t3">Explain how Postgres stores data on disk using B-trees and how databases like Cassandra and RocksDB store data using LSM trees. Cover: how a write works in each model, how a read works, what 'compaction' is and why LSM trees need it, and what the read amplification vs write amplification tradeoff means in practice. Assume I know basic data structures.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s0-t3-1" onchange="onTaskChange('card-s0-t3')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Analyze B-Trees vs LSM Trees storage mechanics, write path and read paths.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s0-t3-2" onchange="onTaskChange('card-s0-t3')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read <strong>Designing Data-Intensive Applications (DDIA)</strong> Chapter 3 up to "Transaction Processing or Analytics".
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s0-t3-3" onchange="onTaskChange('card-s0-t3')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Write a one-paragraph essay: "If I have 100k write operations per second and few queries, which engine would I choose and why?" Revisit this in Stage 2.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STAGE 1 -->
+        <div class="stage-wrapper locked" id="stage-1" data-stage="1">
+            <div class="stage-lock-overlay">
+                <span class="lock-icon-large">🔒</span>
+                <div class="lock-text">Stage 1 Locked</div>
+                <div class="lock-subtext">Complete Stage 0 (Single-Machine Fundamentals) to unlock.</div>
+            </div>
+
+            <div class="stage-header">
+                <div>
+                    <div class="stage-badge">Distributed Core</div>
+                    <h3 class="stage-title">Stage 1 — Why Distributed Systems Are Hard</h3>
+                    <div class="stage-desc">Partial failures, clock skew, replication synchronization, and consensus algorithms are the core hurdles of multi-machine state machines.</div>
+                </div>
+                <div class="stage-progress-badge" id="progress-stage-1">0% Done</div>
+            </div>
+
+            <!-- Topic 1 -->
+            <div class="topic-card" id="card-s1-t1">
+                <div class="card-header-bar" onclick="toggleCard('card-s1-t1')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s1-t1" onchange="toggleEntireNode('card-s1-t1', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>1. Partial Failures & Idempotency</h4>
+                            <p>Handle network timeouts, duplicate deliveries, and ambiguous responses</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s1-t1">0/3 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>In a distributed system, a network call returns one of three states: success, fail, or <em>unknown</em>. You must assume failures will happen continuously.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s1-t1')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s1-t1">Walk me through why partial failures are the core problem in distributed systems. Give me 5 concrete scenarios where a network call between two services produces an ambiguous result — not a clean success or failure. For each scenario: what does the caller know, what can't it know, and what should it do? Also explain what idempotency is and why it's the standard solution to handling retries safely. Use an order submission service as the example.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t1-1" onchange="onTaskChange('card-s1-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Ingest the partial failure guide with detailed order system scenarios.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t1-2" onchange="onTaskChange('card-s1-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read <strong>Designing Data-Intensive Applications (DDIA)</strong> Chapter 8 "The Trouble with Distributed Systems".
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t1-3" onchange="onTaskChange('card-s1-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Write an HTTP client function that handles 5 failure cases: clean fail, connection drop, server crash mid-processing, response timeout, and idempotency key retries.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 2 -->
+            <div class="topic-card" id="card-s1-t2">
+                <div class="card-header-bar" onclick="toggleCard('card-s1-t2')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s1-t2" onchange="toggleEntireNode('card-s1-t2', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>2. Clocks, Ordering & Lamport Timestamps</h4>
+                            <p>Why absolute clock values fail and how to use logical clocks</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s1-t2">0/4 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>No two physical clocks in a cluster are perfectly in sync. Relying on physical timestamps for operations like "Last Write Wins" causes silent data loss.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s1-t2')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s1-t2">Explain why distributed systems can't use wall clocks to determine the order of events. Cover: what clock drift is and why NTP doesn't fully fix it, what happens when two services use timestamps to determine which write wins (give a scenario where it goes wrong), and how Lamport clocks provide a logical ordering of events without relying on physical time. Keep it intuitive — I don't need formal proofs, I need to understand when I should and shouldn't trust a timestamp.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t2-1" onchange="onTaskChange('card-s1-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn clock drift realities and how Lamport Clocks work.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t2-2" onchange="onTaskChange('card-s1-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read DDIA Chapter 8 clock section.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t2-3" onchange="onTaskChange('card-s1-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Study Martin Fowler's pattern catalog: <a href="https://martinfowler.com/articles/patterns-of-distributed-systems/lamport-clock.html" target="_blank">Lamport Clocks Pattern</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t2-4" onchange="onTaskChange('card-s1-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Look for physical clock skew bugs in systems you know, or write a sequence description of how two Bloomberg trading desks submitting orders within 1ms could conflict.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 3 -->
+            <div class="topic-card" id="card-s1-t3">
+                <div class="card-header-bar" onclick="toggleCard('card-s1-t3')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s1-t3" onchange="toggleEntireNode('card-s1-t3', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>3. Replication & Failovers</h4>
+                            <p>Sync replication, follower lags, split brains, and replica promotions</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s1-t3">0/4 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Keeping redundant replicas in sync requires managing lag trade-offs and handling split-brain leader states when primary nodes go offline.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s1-t3')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s1-t3">Explain how database replication works, starting with single-leader replication. Cover: how a follower stays in sync with the leader, what replication lag is and what it means for someone reading from a follower, what split-brain is and why it's dangerous, how leader election works when the leader crashes (at a high level), and what 'synchronous vs asynchronous replication' means for the durability vs performance tradeoff. Use Postgres streaming replication as the concrete reference.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t3-1" onchange="onTaskChange('card-s1-t3')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn replication designs, follower synchronization, and election modes.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t3-2" onchange="onTaskChange('card-s1-t3')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read all of <strong>Designing Data-Intensive Applications (DDIA)</strong> Chapter 5.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t3-3" onchange="onTaskChange('card-s1-t3')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Review PG warm standby settings in: <a href="https://www.postgresql.org/docs/current/warm-standby.html" target="_blank">Postgres Replication Docs</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t3-4" onchange="onTaskChange('card-s1-t3')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Run a PG primary and a streaming replica in Docker Compose. Induce transactions, measure lag, kill primary, and trigger replica promotion manually.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 4 -->
+            <div class="topic-card" id="card-s1-t4">
+                <div class="card-header-bar" onclick="toggleCard('card-s1-t4')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s1-t4" onchange="toggleEntireNode('card-s1-t4', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>4. Consistency Models & The CAP Theorem</h4>
+                            <p>Linearizability, eventual consistency, and trade-off realities</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s1-t4">0/4 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Consistency is a spectrum. Learn to distinguish true linearizability from eventual consistency, and how CAP relates to network partitions.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s1-t4')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s1-t4">I keep hearing 'strong consistency', 'eventual consistency', 'linearizability', and 'CAP theorem' but they blur together. Explain each with a concrete example of a situation where it's acceptable and one where it's not. Specifically: why is eventual consistency fine for a social media feed but not for a bank balance? What does linearizability actually guarantee that eventual consistency doesn't? And what does CAP theorem actually say — including what it doesn't say and why it's often misapplied in practice?</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t4-1" onchange="onTaskChange('card-s1-t4')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn consistency guarantees, linearizability details, and CAP misapplications.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t4-2" onchange="onTaskChange('card-s1-t4')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read DDIA Chapter 9 first half, up to "Ordering Guarantees".
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t4-3" onchange="onTaskChange('card-s1-t4')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Study Kleppmann's post: <a href="https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html" target="_blank">Please stop calling databases CP or AP</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t4-4" onchange="onTaskChange('card-s1-t4')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">📐 Design</span> Design exercise: determine acceptable consistency models for a stock ticker, trading engine, user preferences, rate limiters, and search indices with justifications.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 5 -->
+            <div class="topic-card" id="card-s1-t5">
+                <div class="card-header-bar" onclick="toggleCard('card-s1-t5')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s1-t5" onchange="toggleEntireNode('card-s1-t5', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>5. Consensus & Raft</h4>
+                            <p>Leader elections, log consensus quorums, and partition heals</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s1-t5">0/4 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Consensus is the foundation of fault-tolerant state. Raft is the industry standard for coordinate elections and log replicas.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s1-t5')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s1-t5">Explain the Raft consensus algorithm as if I'm a developer who has never worked on distributed systems. Walk me through: how leader election works (what triggers it, how a winner is decided), how log replication works (what happens between a client write and a committed response), what a quorum is and why a majority matters, and what happens during a network partition where nodes can't communicate. Then tell me which real systems use Raft and where I'd encounter it at a company using Kubernetes.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t5-1" onchange="onTaskChange('card-s1-t5')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn Raft states, log commitments, quorums, and network splits.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t5-2" onchange="onTaskChange('card-s1-t5')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read the first 5 sections of the <a href="https://raft.github.io/raft.pdf" target="_blank">Raft Consensus Paper</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t5-3" onchange="onTaskChange('card-s1-t5')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-interact">🎮 Interact</span> Interact with the animated simulation at <a href="https://raft.github.io/" target="_blank">raft.github.io</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t5-4" onchange="onTaskChange('card-s1-t5')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Run the Raft simulation tasks: kill leader to watch election, partition node clusters to lose quorum, and write logs to compare reconciles.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STAGE 2 (PARALLEL LANE 1) -->
+        <div>
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 600; margin-bottom: 25px; text-align: center; color: var(--accent-primary);">
+                Stage 2, 3, & 4 — Parallel Operations
+            </div>
+
+            <div class="parallel-tracks-container">
+                
+                <!-- Stage 2 Lane -->
+                <div class="track-lane" id="lane-stage-2">
+                    <div class="track-banner">
+                        <h4>Stage 2: Scaling Data</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-2')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-2" data-stage="2" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 2 Locked</div>
+                            <div class="lock-subtext">Complete Stage 1 to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.3rem;">Scaling Data</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">Consistent hashing, indexes optimizations, cache-aside patterns.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-2" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- card 1 -->
+                        <div class="topic-card" id="card-s2-t1" style="margin-bottom: 20px;">
+                            <div class="card-header-bar" onclick="toggleCard('card-s2-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s2-t1" onchange="toggleEntireNode('card-s2-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Consistent Hashing</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s2-t1">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s2-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s2-t1">Explain data partitioning for distributed databases. Cover: range partitioning vs hash partitioning — what each is and the real tradeoffs (don't just say 'hotspots are bad', explain when a hotspot actually happens with hash partitioning too). Then explain consistent hashing: what problem it solves over naive hash partitioning when nodes are added or removed, and what virtual nodes are and why they improve balance. Use a stock ticker dataset as the running example — instrument names as the key.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t1-1" onchange="onTaskChange('card-s2-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn range vs hash partitions and ring topologies.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t1-2" onchange="onTaskChange('card-s2-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read DDIA Chapter 6 Partitioning.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t1-3" onchange="onTaskChange('card-s2-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study the visual guide: <a href="https://arpitbhayani.me/blogs/consistent-hashing" target="_blank">Consistent Hashing Explained</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t1-4" onchange="onTaskChange('card-s2-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Implement consistent hashing with virtual nodes in Python (~60 lines). Report migration fraction metrics on node updates.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- card 2 -->
+                        <div class="topic-card" id="card-s2-t2" style="margin-bottom: 20px;">
+                            <div class="card-header-bar" onclick="toggleCard('card-s2-t2')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s2-t2" onchange="toggleEntireNode('card-s2-t2', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>SQL Query Performance</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s2-t2">0/3 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s2-t2')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s2-t2">I use SQL daily but don't think about performance. Teach me how to think like a database engine. Cover: how a B-tree index works and why column order in a composite index matters, how to read EXPLAIN ANALYZE output in Postgres (give me a sample query and walk through the output line by line), what 'index-only scan' vs 'index scan' vs 'seq scan' means and when each happens, and why opening 10,000 connections to Postgres is a problem and what PgBouncer does to fix it.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t2-1" onchange="onTaskChange('card-s2-t2')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn query planners, composite indices, scan modes, and connection limits.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t2-2" onchange="onTaskChange('card-s2-t2')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study SQL optimizations on: <a href="https://use-the-index-luke.com/" target="_blank">Use the Index, Luke! (Parts 1 & 2)</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t2-3" onchange="onTaskChange('card-s2-t2')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Create a 1M row Postgres table. Analyze query performance via EXPLAIN ANALYZE before and after adding indexes.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- card 3 -->
+                        <div class="topic-card" id="card-s2-t3">
+                            <div class="card-header-bar" onclick="toggleCard('card-s2-t3')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s2-t3" onchange="toggleEntireNode('card-s2-t3', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Cache-aside & Stampedes</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s2-t3">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s2-t3')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s2-t3">Teach me caching as an engineer, not from a textbook. Cover: cache-aside vs write-through vs write-back — give me a concrete scenario where each is the right choice and what breaks if you pick the wrong one. Explain cache invalidation: why is it hard? Give me a real scenario where a cache gets stale and causes a correctness bug. Explain cache stampede: what causes it and two ways to prevent it. Finally, cover Redis data structures beyond key-value: when would I use a sorted set vs a stream?</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t3-1" onchange="onTaskChange('card-s2-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn invalidations, stampede prevention, write modes, and Redis types.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t3-2" onchange="onTaskChange('card-s2-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study Redis data structures in the <a href="https://redis.io/docs/data-types/" target="_blank">Redis Data Types Guide</a> (Sorted sets & Streams).</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t3-3" onchange="onTaskChange('card-s2-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Implement Redis cache-aside wrapping a slow DB query. Add TTL.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s2-t3-4" onchange="onTaskChange('card-s2-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Mitigate a simulated cache stampede (concurrent hits on expired key) using a Redis lock.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage 3 Lane -->
+                <div class="track-lane" id="lane-stage-3">
+                    <div class="track-banner">
+                        <h4>Stage 3: Messaging & Logs</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-3')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-3" data-stage="3" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 3 Locked</div>
+                            <div class="lock-subtext">Complete Stage 1 to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.3rem;">Messaging Systems</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">Message queues vs append logs, Kafka partition scale, window streaming.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-3" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- card 1 -->
+                        <div class="topic-card" id="card-s3-t1" style="margin-bottom: 20px;">
+                            <div class="card-header-bar" onclick="toggleCard('card-s3-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s3-t1" onchange="toggleEntireNode('card-s3-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Queues vs Event Logs</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s3-t1">0/3 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s3-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s3-t1">Explain the conceptual difference between a message queue like RabbitMQ and an event log like Kafka. Use a concrete order management system as the example — an order is placed, risk is checked, it's sent to the exchange, the fill is received. For this workflow, show me how it would look with a queue and how it would look with an event log. What does 'the log is the source of truth' mean, and why is that a powerful design principle?</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t1-1" onchange="onTaskChange('card-s3-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn RabbitMQ routing vs Kafka logs, retention guarantees, and offsets.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t1-2" onchange="onTaskChange('card-s3-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read Jay Kreps' essay: <a href="https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying" target="_blank">The Log: What every programmer should know</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t1-3" onchange="onTaskChange('card-s3-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Read and dissect the full Kreps essay concepts (unifying abstractions, state machines). No code needed.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- card 2 -->
+                        <div class="topic-card" id="card-s3-t2" style="margin-bottom: 20px;">
+                            <div class="card-header-bar" onclick="toggleCard('card-s3-t2')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s3-t2" onchange="toggleEntireNode('card-s3-t2', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Kafka Internals</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s3-t2">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s3-t2')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s3-t2">Teach me Kafka's internals as a developer who needs to use it correctly, not just use the API. Walk me through topics, partitions, and offsets using a text diagram showing what the physical log looks like. Explain: how a consumer group works and what happens when a consumer joins or crashes (rebalancing), what ISR means and how the 'acks' setting affects durability vs throughput, what 'exactly-once' means and the cost of achieving it vs 'at least once with idempotent consumers', and how log compaction differs from retention and when you'd use it. Use a market data feed as the example.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t2-1" onchange="onTaskChange('card-s3-t2')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn consumer rebalances, ISR groups, replica ACKs, and compaction rules.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t2-2" onchange="onTaskChange('card-s3-t2')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study official details in: <a href="https://kafka.apache.org/documentation/#design" target="_blank">Kafka Design Documentation</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t2-3" onchange="onTaskChange('card-s3-t2')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read DDIA Chapter 11 (Stream Processing log structures).</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t2-4" onchange="onTaskChange('card-s3-t2')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Run Kafka broker in Docker. Write a producer sending 50k events. Spin up consumer group of 3 nodes, kill one, observe rebalancing.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- card 3 -->
+                        <div class="topic-card" id="card-s3-t3">
+                            <div class="card-header-bar" onclick="toggleCard('card-s3-t3')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s3-t3" onchange="toggleEntireNode('card-s3-t3', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Stream Processing</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s3-t3">0/5 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s3-t3')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s3-t3">Explain stream processing to someone who understands batch processing. Start with why batch isn't enough (latency). Then explain: event time vs processing time — why they differ and give a market data example where using the wrong one produces wrong results. Explain windowing: tumbling, sliding, and session windows with concrete use cases for each. Explain what a watermark is and why you need one to handle late-arriving events. Finally compare Kafka Streams (library) vs Apache Flink (engine) — when does each make sense?</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t3-1" onchange="onTaskChange('card-s3-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn event time vs processing time, windowing (tumbling, sliding), watermarks, and Flink.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t3-2" onchange="onTaskChange('card-s3-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study Tyler Akidau's guide: <a href="https://www.oreilly.com/radar/the-world-beyond-batch-streaming-101/" target="_blank">Streaming 101 (Part 1)</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t3-3" onchange="onTaskChange('card-s3-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read Akidau's follow-up: <a href="https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/" target="_blank">Streaming 102 (Part 2)</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t3-4" onchange="onTaskChange('card-s3-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Write a sliding window ticker counter using Kafka Streams or PyFlink.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s3-t3-5" onchange="onTaskChange('card-s3-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Induce late events manually to check watermark ignore/drop reactions.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage 4 Lane -->
+                <div class="track-lane" id="lane-stage-4">
+                    <div class="track-banner">
+                        <h4>Stage 4: Infrastructure</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-4')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-4" data-stage="4" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 4 Locked</div>
+                            <div class="lock-subtext">Complete Stage 1 to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.3rem;">Infrastructure</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">L4/L7 load balancers, K8s limits & scaling, metrics observability dashboards.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-4" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- card 1 -->
+                        <div class="topic-card" id="card-s4-t1" style="margin-bottom: 20px;">
+                            <div class="card-header-bar" onclick="toggleCard('card-s4-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s4-t1" onchange="toggleEntireNode('card-s4-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Load Balancing</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s4-t1">0/3 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s4-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s4-t1">Explain load balancing from the ground up. What problem does it solve and what happens without it? What's the difference between L4 and L7 load balancing, and when do you choose each? Walk me through round-robin, least-connections, and consistent hashing as balancing algorithms with the failure mode of each. What are health checks, how do they work, and what's the correct behavior when a backend fails one? What is connection draining and why do you need it for zero-downtime deployments?</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4-t1-1" onchange="onTaskChange('card-s4-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn L4 vs L7 routing, proxy algorithms, and health check drain rules.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4-t1-2" onchange="onTaskChange('card-s4-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-interact">🎮 Interact</span> Study the interactive simulation: <a href="https://samwho.dev/load-balancing/" target="_blank">Load Balancing (samwho.dev)</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4-t1-3" onchange="onTaskChange('card-s4-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Run Nginx in Docker Compose fronting 3 HTTP servers. Verify load allocations. Kill a container to verify health checks, and slow one down to test least_conn vs round-robin.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- card 2 -->
+                        <div class="topic-card" id="card-s4-t2" style="margin-bottom: 20px;">
+                            <div class="card-header-bar" onclick="toggleCard('card-s4-t2')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s4-t2" onchange="toggleEntireNode('card-s4-t2', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Kubernetes Concepts</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s4-t2">0/3 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s4-t2')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s4-t2">I'll be deploying services to Kubernetes but not managing the cluster. Explain each of these objects from the developer's perspective — not what they are, but why they exist and what breaks without them: Pod, Deployment, Service, Ingress, ConfigMap, Secret. Then explain resource requests and limits: what's the difference, and what actually happens if I set them too low or don't set them at all? Finally: what does HPA do, how does it work, and what are its limitations in handling sudden traffic spikes?</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4-t2-1" onchange="onTaskChange('card-s4-t2')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn Pods, Deployments, Services, resources constraints (Limits vs Requests), and HPAs.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4-t2-2" onchange="onTaskChange('card-s4-t2')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Complete all 6 modules of the <a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/" target="_blank">Kubernetes Basics Tutorial</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4-t2-3" onchange="onTaskChange('card-s4-t2')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Deploy a 2-service app on minikube. Restrict resource limits, trigger HPA scale via load testing, and witness latency/re-allocations.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- card 3 -->
+                        <div class="topic-card" id="card-s4-t3">
+                            <div class="card-header-bar" onclick="toggleCard('card-s4-t3')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s4-t3" onchange="toggleEntireNode('card-s4-t3', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Observability Tiers</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s4-t3">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s4-t3')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s4-t3">Explain the three pillars of observability and why you need all three, not just logging. For metrics: explain counter vs gauge vs histogram, give me a real example of each in a trading service, and explain why I should alert on p99 latency instead of average. For distributed tracing: how does a trace ID propagate from service A through B and C — what changes in the code, what does a 'span' represent? For SLOs: explain SLI, SLO, and error budget with a concrete example for a market data API.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4-t3-1" onchange="onTaskChange('card-s4-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn Metrics (p99 vs avg), distributed spans, error budgets and SLOs.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4-t3-2" onchange="onTaskChange('card-s4-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study OpenTelemetry concepts in: <a href="https://opentelemetry.io/docs/concepts/" target="_blank">OpenTelemetry Docs</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4-t3-3" onchange="onTaskChange('card-s4-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read Google SRE book Chapter 4: <a href="https://sre.google/sre-book/service-level-objectives/" target="_blank">Service Level Objectives</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4-t3-4" onchange="onTaskChange('card-s4-t3')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Add Prometheus client metrics to a service, hook to Grafana, write p99 dashboards and latency alerts.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- STAGE 5 -->
+        <div class="stage-wrapper locked" id="stage-5" data-stage="5">
+            <div class="stage-lock-overlay">
+                <span class="lock-icon-large">🔒</span>
+                <div class="lock-text">Stage 5 Locked</div>
+                <div class="lock-subtext">Complete Stage 2, 3, & 4 to unlock.</div>
+            </div>
+
+            <div class="stage-header">
+                <div>
+                    <div class="stage-badge">Design Patterns</div>
+                    <h3 class="stage-title">Stage 5 — Patterns at Scale</h3>
+                    <div class="stage-desc">Standard solutions to standard problems. Once you know them, you recognize them in every architecture discussion and every engineering blog post.</div>
+                </div>
+                <div class="stage-progress-badge" id="progress-stage-5">0% Done</div>
+            </div>
+
+            <!-- Topic 1 -->
+            <div class="topic-card" id="card-s5-t1">
+                <div class="card-header-bar" onclick="toggleCard('card-s5-t1')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s5-t1" onchange="toggleEntireNode('card-s5-t1', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>1. Rate Limiting</h4>
+                            <p>Fixed window, sliding window, token bucket, and Redis Lua scripts</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s5-t1">0/3 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Protect your system from overload by enforcing access rates. Use atomic Redis Lua scripts to safely scale checks.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s5-t1')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s5-t1">Explain rate limiting algorithms with real tradeoffs — not just definitions. Cover fixed window (what's the boundary problem?), sliding window (what does it cost to implement correctly?), and token bucket (how does it allow bursts and what does that mean for an API?). Then explain how to implement a distributed rate limiter using Redis that works correctly across 20 instances of a service. What atomicity problem do you need to solve, and how do Lua scripts in Redis solve it?</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t1-1" onchange="onTaskChange('card-s5-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn token bucket mechanics and atomic Redis lua limit checks.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t1-2" onchange="onTaskChange('card-s5-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read Stripe's blog post: <a href="https://stripe.com/blog/rate-limiters" target="_blank">How We Build Rate Limiters at Stripe Scale</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t1-3" onchange="onTaskChange('card-s5-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Implement a token bucket limiter using a Redis Lua script. Verify concurrent call safety.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 2 -->
+            <div class="topic-card" id="card-s5-t2">
+                <div class="card-header-bar" onclick="toggleCard('card-s5-t2')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s5-t2" onchange="toggleEntireNode('card-s5-t2', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>2. Circuit Breakers</h4>
+                            <p>Thread pool exhaustions, sliding failures, and probe resets</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s5-t2">0/3 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Avoid cascading failures across microservices. Wrap calls in a breaker class to fail fast when services go offline.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s5-t2')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s5-t2">Explain the circuit breaker pattern with a specific failure scenario. Walk me through exactly how a slow downstream service causes your service to fail — trace the path from one slow dependency to thread pool exhaustion to your service returning 503s. Then explain circuit breakers: the three states (closed, open, half-open), what triggers each transition, and what parameters you'd configure for a real service. Where should a circuit breaker live — in application code or at the infrastructure layer (service mesh), and what's the tradeoff?</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t2-1" onchange="onTaskChange('card-s5-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn pool exhaustion, breaker states, and mesh vs library tradeoffs.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t2-2" onchange="onTaskChange('card-s5-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read Martin Fowler's pattern: <a href="https://martinfowler.com/bliki/CircuitBreaker.html" target="_blank">Circuit Breaker Pattern</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t2-3" onchange="onTaskChange('card-s5-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Write a Python class implementing CircuitBreaker (track counts, open breaker, half-open probe, reset).
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 3 -->
+            <div class="topic-card" id="card-s5-t3">
+                <div class="card-header-bar" onclick="toggleCard('card-s5-t3')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s5-t3" onchange="toggleEntireNode('card-s5-t3', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>3. Distributed Transactions (Saga Pattern)</h4>
+                            <p>Orchestration vs choreography and compensations rollbacks</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s5-t3">0/3 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Avoid 2PC lock limitations. Handle multi-step service failures by executing compensatory rollbacks in reverse order.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s5-t3')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s5-t3">Explain why two-phase commit (2PC) doesn't scale and what its failure mode is when the coordinator crashes mid-transaction. Then explain the Saga pattern as the alternative: what's the difference between choreography and orchestration sagas? Draw me a text sequence diagram for a 4-step order process (create order, reserve inventory, charge payment, send confirmation) where payment fails — show the compensating transactions. Where does compensating become impossible and how do you design around that?</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t3-1" onchange="onTaskChange('card-s5-t3')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn 2PC limitations, Saga coordinators, and rollbacks.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t3-2" onchange="onTaskChange('card-s5-t3')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read microservices pattern catalog: <a href="https://microservices.io/patterns/data/saga.html" target="_blank">Saga Pattern</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t3-3" onchange="onTaskChange('card-s5-t3')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Implement an orchestrator Saga coordinator class in Python; inject a step 3 failure and verify compensating run order.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 4 -->
+            <div class="topic-card" id="card-s5-t4">
+                <div class="card-header-bar" onclick="toggleCard('card-s5-t4')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s5-t4" onchange="toggleEntireNode('card-s5-t4', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>4. CQRS & Event Sourcing</h4>
+                            <p>Read/write separation, transaction logs replay, and schema versions</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s5-t4">0/4 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Store state updates as a series of events. Generate read projections dynamically to separate data layers cleanly.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s5-t4')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s5-t4">Explain CQRS and Event Sourcing together, starting from the problem they solve. First: what breaks when you read and write from the same model at high scale? What does CQRS give you? Then explain Event Sourcing: what does it mean to store events instead of state, what are the real benefits (give me 3 concrete ones for a financial system), and what are the real costs (eventual consistency of read models, event schema changes over time). Use a brokerage account as the example throughout.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t4-1" onchange="onTaskChange('card-s5-t4')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn read/write separations, events logs replay, schema versions.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t4-2" onchange="onTaskChange('card-s5-t4')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read Fowler on <a href="https://martinfowler.com/eaaDev/EventSourcing.html" target="_blank">Event Sourcing</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t4-3" onchange="onTaskChange('card-s5-t4')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Read Fowler on <a href="https://martinfowler.com/bliki/CQRS.html" target="_blank">CQRS Pattern</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s5-t4-4" onchange="onTaskChange('card-s5-t4')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Build an in-memory banking ledger that reconstructs balances by replaying transaction log events. Add monthly summaries.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STAGE 6 -->
+        <div class="stage-wrapper locked" id="stage-6" data-stage="6">
+            <div class="stage-lock-overlay">
+                <span class="lock-icon-large">🔒</span>
+                <div class="lock-text">Stage 6 Locked</div>
+                <div class="lock-subtext">Complete Stage 5 (Patterns at Scale) to unlock.</div>
+            </div>
+
+            <div class="stage-header">
+                <div>
+                    <div class="stage-badge">System Assembly</div>
+                    <h3 class="stage-title">Stage 6 — System Design Practice</h3>
+                    <div class="stage-desc">By this point you know the pieces. Now practice assembling them.</div>
+                </div>
+                <div class="stage-progress-badge" id="progress-stage-6">0% Done</div>
+            </div>
+
+            <!-- Topic 1 -->
+            <div class="topic-card" id="card-s6-t1">
+                <div class="card-header-bar" onclick="toggleCard('card-s6-t1')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s6-t1" onchange="toggleEntireNode('card-s6-t1', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>1. Interview & Architecture Frameworks</h4>
+                            <p>Scope requirements, back-of-envelope capacities, and bottlenecks detections</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s6-t1">0/3 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Follow a robust, step-by-step structure to design microservices without over-optimizing too early.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s6-t1')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s6-t1">Teach me how to approach a system design problem in an interview or architecture discussion. Walk me through a structured framework: how to scope requirements, how to do back-of-envelope capacity estimation (give me a worked example with numbers), how to build a high-level design without over-optimizing early, where to focus deep dives, and how to identify and talk through failure modes. Use 'design a real-time pub/sub notification system' as the example to walk the framework through.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t1-1" onchange="onTaskChange('card-s6-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn the interview structure using a real-time pub/sub model design.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t1-2" onchange="onTaskChange('card-s6-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Skim and bookmark Donnie Martin's primer: <a href="https://github.com/donnemartin/system-design-primer" target="_blank">System Design Primer (GitHub)</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t1-3" onchange="onTaskChange('card-s6-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Study visual breakdowns at: <a href="https://blog.bytebytego.com/" target="_blank">ByteByteGo Newsletter</a>.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 2 -->
+            <div class="topic-card" id="card-s6-t2">
+                <div class="card-header-bar" onclick="toggleCard('card-s6-t2')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s6-t2" onchange="toggleEntireNode('card-s6-t2', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>2. Bloomberg-Relevant System Designs</h4>
+                            <p>Market feeds, order books matching, alert filters, and case study post-mortems</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s6-t2">0/9 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Work through four high-performance system design exercises that directly map to Bloomberg's core data pipelines.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s6-t2')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s6-t2">I want to design [SYSTEM NAME]. Walk me through it using this structure: clarify requirements and constraints, estimate scale (give rough numbers), draw the high-level architecture in text, deep dive into the hardest part of the design, then enumerate failure modes and how the system handles each. Ask me questions along the way to clarify requirements rather than assuming.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t2-1" onchange="onTaskChange('card-s6-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">📐 Design</span> <strong>Real-time market data feed</strong>: sub-100ms fan-out of 500k ticks/sec, WS streams, reconnect handle.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t2-2" onchange="onTaskChange('card-s6-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">📐 Design</span> <strong>Order book</strong>: bids/asks matching engines, strict transactional audit trail, linearizability.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t2-3" onchange="onTaskChange('card-s6-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">📐 Design</span> <strong>News alerting system</strong>: inverse index matching, rule filters for thousands of tags, sub-1s delivery to millions.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t2-4" onchange="onTaskChange('card-s6-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">📐 Design</span> <strong>Rate limiter service</strong>: 5ms check latencies, 50 microservice consumers, fallback handling if limiter goes down.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t2-5" onchange="onTaskChange('card-s6-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Study case: <a href="https://discord.com/blog/how-discord-stores-trillions-of-messages" target="_blank">Discord (Cassandra to ScyllaDB migration)</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t2-6" onchange="onTaskChange('card-s6-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Study case: <a href="https://netflixtechblog.com/keystone-real-time-stream-processing-platform-a3ee651812a" target="_blank">Netflix Keystone Stream Platform</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t2-7" onchange="onTaskChange('card-s6-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Study case: <a href="https://slack.engineering/flannel-an-application-level-edge-cache-to-make-slack-scale/" target="_blank">Slack Flannel Edge Cache Architecture</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t2-8" onchange="onTaskChange('card-s6-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">📐 Design</span> Design each of the four systems on paper/text file outlining architecture flows.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s6-t2-9" onchange="onTaskChange('card-s6-t2')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> For the market data feed: write the fanout component — one producer, N web socket subscribers, and a last-known-value cache.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Floating UI -->
+    <div class="floating-progress-container">
+        <button class="btn-scroll-top" id="btn-scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Scroll to Top">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Distributed Systems Roadmap</p>
+        <p>Built with Outfit, Space Grotesk, and Plus Jakarta Sans.</p>
+    </footer>
+
+    <!-- Interactive JS Script -->
+    <script>
+        let locksEnabled = true;
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('roadmap-theme-sys', newTheme);
+            updateThemeToggleButton(newTheme);
+        }
+
+        function updateThemeToggleButton(theme) {
+            const themeToggleIcon = document.getElementById('theme-toggle-icon');
+            if (theme === 'dark') {
+                themeToggleIcon.textContent = '☀️';
+            } else {
+                themeToggleIcon.textContent = '🌙';
+            }
+        }
+
+        function toggleDependencyLocking() {
+            locksEnabled = !locksEnabled;
+            const btn = document.getElementById('btn-lock-toggle');
+            const label = document.getElementById('lock-toggle-label');
+            const icon = document.getElementById('lock-toggle-icon');
+
+            if (locksEnabled) {
+                btn.style.borderColor = 'var(--accent-primary)';
+                label.textContent = 'Locks Enabled';
+                icon.textContent = '🔒';
+            } else {
+                btn.style.borderColor = 'var(--border-card)';
+                label.textContent = 'Locks Disabled';
+                icon.textContent = '🔓';
+            }
+
+            evaluateLocks();
+        }
+
+        function toggleCard(cardId) {
+            const card = document.getElementById(cardId);
+            card.classList.toggle('open');
+        }
+
+        function copyPrompt(button, promptId) {
+            const promptText = document.getElementById(promptId).innerText;
+            navigator.clipboard.writeText(promptText).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = '✅ Copied!';
+                button.style.borderColor = 'var(--success)';
+                button.style.color = 'var(--success)';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.borderColor = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        function toggleEntireNode(cardId, masterCheckbox) {
+            const card = document.getElementById(cardId);
+            const checkboxes = card.querySelectorAll('.task-list input[type="checkbox"]');
+            
+            checkboxes.forEach(cb => {
+                cb.checked = masterCheckbox.checked;
+                localStorage.setItem(cb.id, cb.checked);
+            });
+
+            updateCardProgress(cardId);
+            recalculateAllProgress();
+        }
+
+        function onTaskChange(cardId) {
+            updateCardProgress(cardId);
+            recalculateAllProgress();
+        }
+
+        function updateCardProgress(cardId) {
+            const card = document.getElementById(cardId);
+            const checkboxes = card.querySelectorAll('.task-list input[type="checkbox"]');
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            
+            checkboxes.forEach(cb => {
+                localStorage.setItem(cb.id, cb.checked);
+            });
+
+            const progressPill = document.getElementById(`progress-text-${cardId.replace('card-', '')}`);
+            if (progressPill) {
+                progressPill.textContent = `${checkedCount}/${checkboxes.length} Tasks`;
+            }
+
+            const masterCheck = document.getElementById(`check-node-${cardId.replace('card-', '')}`);
+            if (masterCheck) {
+                masterCheck.checked = (checkedCount === checkboxes.length);
+            }
+        }
+
+        function scrollToStage(stageId) {
+            const element = document.getElementById(stageId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (element.classList.contains('locked') && locksEnabled) {
+                    element.style.animation = 'none';
+                    element.offsetHeight; // trigger reflow
+                    element.style.animation = 'float 0.4s ease 2';
+                }
+            }
+        }
+
+        function isStageComplete(sNum) {
+            const stageEls = document.querySelectorAll(`[data-stage="${sNum}"]`);
+            if (stageEls.length === 0) return false;
+            
+            let allChecked = true;
+            stageEls.forEach(stageEl => {
+                const checkboxes = stageEl.querySelectorAll('.task-list input[type="checkbox"]');
+                const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+                if (checkboxes.length === 0 || checked < checkboxes.length) {
+                    allChecked = false;
+                }
+            });
+            return allChecked;
+        }
+
+        function recalculateAllProgress() {
+            const stages = ["0", "1", "2", "3", "4", "5", "6"];
+            let totalTasks = 0;
+            let totalCheckedTasks = 0;
+
+            stages.forEach(stageId => {
+                const stageEl = document.getElementById(`stage-${stageId}`);
+                if (!stageEl) return;
+                const checkboxes = stageEl.querySelectorAll('.task-list input[type="checkbox"]');
+                const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+                
+                totalTasks += checkboxes.length;
+                totalCheckedTasks += checked;
+
+                const pct = checkboxes.length > 0 ? Math.round((checked / checkboxes.length) * 100) : 0;
+                
+                const badge = document.getElementById(`progress-stage-${stageId}`);
+                if (badge) {
+                    badge.textContent = `${pct}% Done`;
+                }
+
+                const mapNode = document.getElementById(`map-node-${stageId}`);
+                if (mapNode) {
+                    mapNode.classList.remove('completed', 'active');
+                    if (pct === 100) {
+                        mapNode.classList.add('completed');
+                    } else if (pct > 0) {
+                        mapNode.classList.add('active');
+                    }
+                }
+            });
+
+            const overallPct = totalTasks > 0 ? Math.round((totalCheckedTasks / totalTasks) * 100) : 0;
+            document.getElementById('overall-progress-bar').style.width = `${overallPct}%`;
+            document.getElementById('overall-progress-text').textContent = `${overallPct}%`;
+
+            evaluateLocks();
+        }
+
+        function evaluateLocks() {
+            const stages = ["0", "1", "2", "3", "4", "5", "6"];
+
+            stages.forEach(stageId => {
+                const stageWrapper = document.getElementById(`stage-${stageId}`);
+                if (!stageWrapper) return;
+                const mapNode = document.getElementById(`map-node-${stageId}`);
+                
+                if (stageId === "0" || !locksEnabled) {
+                    stageWrapper.classList.remove('locked');
+                    if (mapNode && !mapNode.classList.contains('completed') && !mapNode.classList.contains('active')) {
+                        mapNode.classList.remove('locked');
+                    }
+                    return;
+                }
+
+                let allMet = false;
+                if (stageId === "1") {
+                    allMet = isStageComplete(0);
+                } else if (stageId === "2" || stageId === "3" || stageId === "4") {
+                    allMet = isStageComplete(1);
+                } else if (stageId === "5") {
+                    allMet = isStageComplete(2) && isStageComplete(3);
+                } else if (stageId === "6") {
+                    allMet = isStageComplete(5) && isStageComplete(4);
+                }
+
+                if (allMet) {
+                    stageWrapper.classList.remove('locked');
+                    if (mapNode) {
+                        mapNode.classList.remove('locked');
+                    }
+                } else {
+                    stageWrapper.classList.add('locked');
+                    if (mapNode) {
+                        mapNode.classList.add('locked');
+                    }
+                }
+            });
+
+            updateEdgeVis();
+        }
+
+        function updateEdgeVis() {
+            const isNodeComplete = (id) => {
+                const nodeEl = document.getElementById(`stage-${id}`);
+                if (!nodeEl) return false;
+                const cbList = nodeEl.querySelectorAll('.task-list input[type="checkbox"]');
+                return cbList.length > 0 && Array.from(cbList).every(cb => cb.checked);
+            };
+
+            const isNodeUnlocked = (id) => {
+                const nodeEl = document.getElementById(`stage-${id}`);
+                return nodeEl && !nodeEl.classList.contains('locked');
+            };
+
+            const edges = [
+                { id: 'edge-0-1', parent: '0', child: '1' },
+                { id: 'edge-1-2', parent: '1', child: '2' },
+                { id: 'edge-1-3', parent: '1', child: '3' },
+                { id: 'edge-1-4', parent: '1', child: '4' },
+                { id: 'edge-2-5', parent: '2', child: '5' },
+                { id: 'edge-3-5', parent: '3', child: '5' },
+                { id: 'edge-5-6', parent: '5', child: '6' },
+                { id: 'edge-4-6', parent: '4', child: '6' }
+            ];
+
+            edges.forEach(edge => {
+                const el = document.getElementById(edge.id);
+                if (el) {
+                    el.classList.remove('active', 'completed');
+                    if (isNodeComplete(edge.parent)) {
+                        el.classList.add('completed');
+                        el.setAttribute('marker-end', 'url(#arrow-completed)');
+                    } else if (isNodeUnlocked(edge.child)) {
+                        el.classList.add('active');
+                        el.setAttribute('marker-end', 'url(#arrow-active)');
+                    } else {
+                        el.setAttribute('marker-end', 'url(#arrow)');
+                    }
+                }
+            });
+        }
+
+        function focusTrack(trackLaneId) {
+            const lane = document.getElementById(trackLaneId);
+            const container = lane.closest('.parallel-tracks-container');
+            const allLanes = container.querySelectorAll('.track-lane');
+
+            if (lane.classList.contains('focused')) {
+                allLanes.forEach(l => {
+                    l.classList.remove('focused', 'dimmed');
+                    l.querySelector('.track-focus-toggle').textContent = 'Focus on Lane';
+                });
+                return;
+            }
+
+            allLanes.forEach(l => {
+                if (l.id === trackLaneId) {
+                    l.classList.add('focused');
+                    l.classList.remove('dimmed');
+                    l.querySelector('.track-focus-toggle').textContent = 'Unfocus Lane';
+                } else {
+                    l.classList.add('dimmed');
+                    l.classList.remove('focused');
+                    l.querySelector('.track-focus-toggle').textContent = 'Focus on Lane';
+                }
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('btn-scroll-top');
+            if (window.scrollY > 300) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('roadmap-theme-sys') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeToggleButton(savedTheme);
+
+            const cards = ['card-s0-t1', 'card-s0-t2', 'card-s0-t3',
+                           'card-s1-t1', 'card-s1-t2', 'card-s1-t3', 'card-s1-t4', 'card-s1-t5',
+                           'card-s2-t1', 'card-s2-t2', 'card-s2-t3',
+                           'card-s3-t1', 'card-s3-t2', 'card-s3-t3',
+                           'card-s4-t1', 'card-s4-t2', 'card-s4-t3',
+                           'card-s5-t1', 'card-s5-t2', 'card-s5-t3', 'card-s5-t4',
+                           'card-s6-t1', 'card-s6-t2'];
+
+            cards.forEach(cardId => {
+                const card = document.getElementById(cardId);
+                if (!card) return;
+                const checkboxes = card.querySelectorAll('.task-list input[type="checkbox"]');
+                
+                checkboxes.forEach(cb => {
+                    const savedVal = localStorage.getItem(cb.id);
+                    if (savedVal === 'true') {
+                        cb.checked = true;
+                    }
+                });
+
+                updateCardProgress(cardId);
+            });
+
+            recalculateAllProgress();
+        });
+    </script>
+</body>
+</html>

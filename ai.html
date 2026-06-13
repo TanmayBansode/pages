@@ -1,0 +1,2691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI / LLM Developer Roadmap</title>
+    <!-- Google Fonts: Plus Jakarta Sans for UI/Content, Space Grotesk for Headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Warm Paper Mode (Default Theme) - Soothing & Premium Warmth */
+            --bg-main: #fbf9f6;
+            --bg-card: #ffffff;
+            --bg-code: #f5ede0;
+            --border-card: #ebdcc9;
+            --text-main: #342c26;
+            --text-muted: #7a6b5f;
+            --accent-primary: #9b7e61;
+            --accent-hover: #7d654d;
+            --accent-secondary: #d4ae83;
+            --success: #2e7d32;
+            --success-light: #e8f5e9;
+            --lock-overlay: rgba(251, 249, 246, 0.9);
+            --header-border: #ebdcc9;
+            --shadow-card: 0 4px 24px rgba(155, 126, 97, 0.04);
+            --shadow-glow: 0 0 20px rgba(155, 126, 97, 0.1);
+            
+            --circle-bg: #ebdcc9;
+            --circle-text: #7a6b5f;
+            --line-color: #ebdcc9;
+        }
+
+        [data-theme="dark"] {
+            /* Midnight Obsidian Dark Mode - Low-Contrast Soothing Dark */
+            --bg-main: #0c0f18;
+            --bg-card: #131926;
+            --bg-code: #070a10;
+            --border-card: #1d273a;
+            --text-main: #e2e8f0;
+            --text-muted: #8a99ad;
+            --accent-primary: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --accent-secondary: #6366f1;
+            --success: #10b981;
+            --success-light: rgba(16, 185, 129, 0.08);
+            --lock-overlay: rgba(12, 15, 24, 0.92);
+            --header-border: #1e293b;
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.15);
+
+            --circle-bg: #1d273a;
+            --circle-text: #8a99ad;
+            --line-color: #1d273a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.8;
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .btn-toggle, .btn-copy, .btn-scroll-top, .custom-checkbox, .task-item-label, .graph-node circle, .graph-node text, .graph-edge {
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, stroke 0.2s ease, fill 0.2s ease, opacity 0.2s ease;
+        }
+
+        .topic-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Top Sticky Header */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--bg-main);
+            border-bottom: 1px solid var(--header-border);
+            padding: 18px 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-section h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.45rem;
+            margin: 0;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-section p {
+            margin: 4px 0 0 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .controls-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-card);
+        }
+
+        .progress-bar-container {
+            width: 100px;
+            height: 6px;
+            background-color: var(--bg-code);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .btn-toggle {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            box-shadow: var(--shadow-card);
+        }
+
+        .btn-toggle:hover {
+            border-color: var(--accent-primary);
+        }
+
+        /* Hero and intro section */
+        .hero {
+            max-width: 850px;
+            margin: 60px auto 40px auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            line-height: 1.25;
+            color: var(--text-main);
+            letter-spacing: -0.03em;
+        }
+
+        .hero p.lead {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin: 0 auto;
+            max-width: 650px;
+        }
+
+        /* Interactive Map Visualization */
+        .map-section {
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .map-section h3 {
+            margin-top: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--accent-primary);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .interactive-graph {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .interactive-graph svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* SVG States styling */
+        .graph-node {
+            cursor: pointer;
+        }
+        .graph-node circle {
+            fill: var(--circle-bg);
+            stroke: var(--border-card);
+            stroke-width: 2px;
+            transition: fill 0.3s, stroke 0.3s, opacity 0.3s;
+        }
+        .graph-node text {
+            fill: var(--circle-text);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            transition: fill 0.3s, opacity 0.3s;
+        }
+        .graph-edge {
+            stroke: var(--line-color);
+            stroke-width: 2px;
+            fill: none;
+            transition: stroke 0.3s, stroke-width 0.3s;
+        }
+        .graph-node-label {
+            font-size: 10px;
+            fill: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* SVG Glows and highlights based on status */
+        .graph-node.active circle {
+            stroke: var(--accent-primary);
+            fill: var(--bg-code);
+        }
+        .graph-node.active text {
+            fill: var(--accent-primary);
+        }
+        .graph-node.completed circle {
+            fill: var(--success);
+            stroke: var(--success);
+        }
+        .graph-node.completed text {
+            fill: #ffffff;
+        }
+        .graph-node.locked circle {
+            opacity: 0.4;
+            stroke-dasharray: 4;
+        }
+        .graph-node.locked text {
+            opacity: 0.4;
+        }
+        .graph-edge.active {
+            stroke: var(--accent-primary);
+            stroke-width: 2.5px;
+        }
+        .graph-edge.completed {
+            stroke: var(--success);
+            stroke-width: 2.5px;
+        }
+
+        /* Container Layout for Roadmap */
+        .roadmap-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 100px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        /* Stage Styling */
+        .stage-wrapper {
+            position: relative;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-card);
+            content-visibility: auto;
+            contain-intrinsic-size: 600px;
+        }
+
+        .stage-wrapper.locked {
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .stage-lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--lock-overlay);
+            z-index: 10;
+            border-radius: 20px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            pointer-events: none;
+        }
+
+        .stage-wrapper.locked .stage-lock-overlay {
+            display: flex;
+            pointer-events: auto;
+        }
+
+        .lock-icon-large {
+            font-size: 2.4rem;
+            color: var(--text-muted);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .lock-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: var(--text-main);
+            text-align: center;
+            font-size: 1.15rem;
+        }
+
+        .lock-subtext {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border-card);
+            padding-bottom: 24px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stage-badge {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 6px;
+        }
+
+        .stage-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            margin: 0;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .stage-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 10px;
+            max-width: 850px;
+            line-height: 1.7;
+        }
+
+        .stage-progress-badge {
+            background-color: var(--bg-code);
+            border: 1px solid var(--border-card);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Parallel Grid Layout */
+        .parallel-tracks-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+        }
+
+        .parallel-tracks-container.two-columns {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 992px) {
+            .parallel-tracks-container, .parallel-tracks-container.two-columns {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        .track-lane {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+        }
+
+        .track-banner {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(155, 126, 97, 0.05), rgba(212, 174, 131, 0.05));
+            border: 1px solid var(--border-card);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .track-banner h4 {
+            margin: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent-primary);
+        }
+
+
+
+        .topic-card:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .card-header-bar {
+            padding: 24px 28px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            gap: 15px;
+        }
+
+        .card-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+
+        /* Custom Card Checkbox */
+        .card-checkbox-wrapper {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .card-checkbox-wrapper input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .custom-checkbox {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            background-color: var(--bg-code);
+            border: 2px solid var(--accent-primary);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .card-checkbox-wrapper input:checked ~ .custom-checkbox {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+
+        .custom-checkbox::after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 7px;
+            top: 3px;
+            width: 6px;
+            height: 11px;
+            border: solid white;
+            border-width: 0 2.5px 2.5px 0;
+            transform: rotate(45deg);
+        }
+
+        .card-checkbox-wrapper input:checked ~ .custom-checkbox::after {
+            display: block;
+        }
+
+        .topic-titles h4 {
+            margin: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+        }
+
+        .topic-titles p {
+            margin: 4px 0 0 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .card-header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-progress-indicator {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background-color: var(--bg-code);
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .chevron-icon {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-muted);
+            fill: none;
+            stroke-width: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .topic-card.open .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Card Content (Accordion panel) */
+        .card-content-panel {
+            display: none;
+            border-top: 0px solid transparent;
+        }
+
+        .topic-card.open .card-content-panel {
+            display: block;
+            border-top: 1px solid var(--border-card);
+        }
+
+        .card-inner-body {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Claude Prompt Box Styling - Auto Height Soothing Layout */
+        .prompt-container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            background-color: var(--bg-code);
+            overflow: hidden;
+        }
+
+        .prompt-header {
+            background-color: rgba(155, 126, 97, 0.04);
+            border-bottom: 1px solid var(--border-card);
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prompt-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-primary);
+        }
+
+        .btn-copy {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .btn-copy:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .prompt-body {
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: var(--text-main);
+            margin: 0;
+            max-height: none;
+            overflow-y: visible;
+            overflow-x: visible;
+        }
+
+        /* Tasks & Resources Lists */
+        .task-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .task-item-label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            gap: 14px;
+            font-size: 0.95rem;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+        }
+
+        .task-item-label:hover {
+            background-color: rgba(155, 126, 97, 0.03);
+            border-color: var(--border-card);
+        }
+
+        .task-item-label input[type="checkbox"] {
+            margin-top: 5px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--success);
+            flex-shrink: 0;
+        }
+
+        .task-item-text {
+            color: var(--text-main);
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .task-item-text a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1.5px solid rgba(155, 126, 97, 0.15);
+        }
+
+        .task-item-text a:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .task-type-badge {
+            font-size: 0.65rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 3px 7px;
+            border-radius: 4px;
+            margin-right: 8px;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .badge-read {
+            background-color: rgba(99, 102, 241, 0.08);
+            color: #6366f1;
+        }
+
+        .badge-watch {
+            background-color: rgba(245, 158, 11, 0.08);
+            color: #d97706;
+        }
+
+        .badge-build {
+            background-color: rgba(239, 68, 68, 0.08);
+            color: #ef4444;
+        }
+
+        .badge-interact {
+            background-color: rgba(16, 185, 129, 0.08);
+            color: #10b981;
+        }
+
+        .badge-ask {
+            background-color: rgba(34, 211, 238, 0.08);
+            color: var(--accent-primary);
+        }
+
+        /* Footer styling */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            border-top: 1px solid var(--border-card);
+            background-color: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer p {
+            margin: 6px 0;
+        }
+
+        /* Keyframe animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Quick Floating Actions */
+        .floating-progress-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-scroll-top {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .btn-scroll-top:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* Help Alert */
+        .setup-guide {
+            max-width: 850px;
+            margin: 0 auto 40px auto;
+            background-color: var(--success-light);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 12px;
+            padding: 18px 24px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .setup-guide-icon {
+            font-size: 1.4rem;
+            color: var(--success);
+        }
+
+        .setup-guide-content h4 {
+            margin: 0 0 6px 0;
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.05rem;
+        }
+
+        .setup-guide-content p {
+            margin: 0;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Focus mode indicators for parallel tracks */
+        .track-focus-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-top: 6px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            background-color: var(--bg-code);
+            border: 1px solid var(--border-card);
+        }
+
+        .track-focus-toggle:hover {
+            color: var(--text-main);
+            border-color: var(--accent-primary);
+        }
+
+        .track-lane.dimmed {
+            opacity: 0.2;
+        }
+
+        .track-lane.focused {
+            transform: scale(1.01);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <div class="sticky-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                    AI Systems Core
+                </h1>
+                <p>AI / LLM Developer Roadmap</p>
+            </div>
+            
+            <div class="controls-section">
+                <div class="progress-box">
+                    <span>Roadmap Progress:</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="overall-progress-bar"></div>
+                    </div>
+                    <span id="overall-progress-text">0%</span>
+                </div>
+
+                <button class="btn-toggle" id="btn-lock-toggle" onclick="toggleDependencyLocking()">
+                    <span id="lock-toggle-icon">🔒</span>
+                    <span id="lock-toggle-label">Locks Enabled</span>
+                </button>
+
+                <button class="btn-toggle" onclick="toggleTheme()">
+                    <span id="theme-toggle-icon">🌙</span>
+                    <span>Theme</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h2>AI / LLM Developer Roadmap</h2>
+        <p class="lead">From First-Principles Transformer Mechanics to Agentic Workflow Orchestration & Scalable AI Production Systems</p>
+    </div>
+
+    <!-- Setup Info / Guiding Principles -->
+    <div class="setup-guide">
+        <span class="setup-guide-icon">💡</span>
+        <div class="setup-guide-content">
+            <h4>Guiding Principles</h4>
+            <p>1. <strong>One concept read + one thing built</strong> per topic. Skip the rest.<br>
+               2. <strong>Build without frameworks first</strong> (especially agents) to learn what libraries are hiding.<br>
+               3. <strong>Evals and tracing</strong> (Stage 6) are not optional for serious production applications.</p>
+        </div>
+    </div>
+
+    <!-- Interactive Map Visualization -->
+    <div class="map-section">
+        <h3>Dependency Visualizer Map</h3>
+        <div class="interactive-graph">
+            <!-- Inline SVG representing the dependency tree -->
+            <svg viewBox="0 0 600 380" width="100%" height="340">
+                <!-- SVG Filters for arrows -->
+                <defs>
+                    <marker id="arrow" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--border-card)" />
+                    </marker>
+                    <marker id="arrow-active" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-primary)" />
+                    </marker>
+                    <marker id="arrow-completed" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--success)" />
+                    </marker>
+                </defs>
+
+                <!-- Connection Lines (Edges) -->
+                <!-- Stage 1 -> Stage 2 -->
+                <path d="M 300,40 L 300,90" class="graph-edge" id="edge-1-2" marker-end="url(#arrow)" />
+                <!-- Stage 2 -> Stage 3 -->
+                <path d="M 300,90 L 300,140" class="graph-edge" id="edge-2-3" marker-end="url(#arrow)" />
+                
+                <!-- Stage 3 -> Stage 4a -->
+                <path d="M 300,140 L 200,190" class="graph-edge" id="edge-3-4a" marker-end="url(#arrow)" />
+                <!-- Stage 3 -> Stage 4b -->
+                <path d="M 300,140 L 400,190" class="graph-edge" id="edge-3-4b" marker-end="url(#arrow)" />
+
+                <!-- Stage 4a -> Stage 5a -->
+                <path d="M 200,190 L 150,240" class="graph-edge" id="edge-4a-5a" marker-end="url(#arrow)" />
+                <!-- Stage 4a -> Stage 5b -->
+                <path d="M 200,190 L 300,240" class="graph-edge" id="edge-4a-5b" marker-end="url(#arrow)" />
+                <!-- Stage 4b -> Stage 5b -->
+                <path d="M 400,190 L 300,240" class="graph-edge" id="edge-4b-5b" marker-end="url(#arrow)" />
+                <!-- Stage 4b -> Stage 5c -->
+                <path d="M 400,190 L 450,240" class="graph-edge" id="edge-4b-5c" marker-end="url(#arrow)" />
+
+                <!-- Stage 5a -> Stage 6a -->
+                <path d="M 150,240 L 150,290" class="graph-edge" id="edge-5a-6a" marker-end="url(#arrow)" />
+                <!-- Stage 5b -> Stage 6b -->
+                <path d="M 300,240 L 300,290" class="graph-edge" id="edge-5b-6b" marker-end="url(#arrow)" />
+                <!-- Stage 5c -> Stage 6c -->
+                <path d="M 450,240 L 450,290" class="graph-edge" id="edge-5c-6c" marker-end="url(#arrow)" />
+
+                <!-- Stage 6a -> Stage 7a -->
+                <path d="M 150,290 L 150,340" class="graph-edge" id="edge-6a-7a" marker-end="url(#arrow)" />
+                <!-- Stage 6b -> Stage 7b -->
+                <path d="M 300,290 L 300,340" class="graph-edge" id="edge-6b-7b" marker-end="url(#arrow)" />
+                <!-- Stage 6c -> Stage 7c -->
+                <path d="M 450,290 L 450,340" class="graph-edge" id="edge-6c-7c" marker-end="url(#arrow)" />
+
+                <!-- Nodes -->
+                <!-- Stage 1 (Root) -->
+                <g class="graph-node active" id="map-node-1" onclick="scrollToStage('stage-1')">
+                    <circle cx="300" cy="40" r="18" />
+                    <text x="300" y="40">1</text>
+                    <text x="300" y="15" class="graph-node-label">Root (Transformers)</text>
+                </g>
+
+                <!-- Stage 2 -->
+                <g class="graph-node locked" id="map-node-2" onclick="scrollToStage('stage-2')">
+                    <circle cx="300" cy="90" r="18" />
+                    <text x="300" y="90">2</text>
+                    <text x="375" y="90" class="graph-node-label">Prompting System</text>
+                </g>
+
+                <!-- Stage 3 -->
+                <g class="graph-node locked" id="map-node-3" onclick="scrollToStage('stage-3')">
+                    <circle cx="300" cy="140" r="18" />
+                    <text x="300" y="140">3</text>
+                    <text x="360" y="140" class="graph-node-label">Tool Use</text>
+                </g>
+
+                <!-- Stage 4a -->
+                <g class="graph-node locked" id="map-node-4a" onclick="scrollToStage('stage-4')">
+                    <circle cx="200" cy="190" r="18" />
+                    <text x="200" y="190">4a</text>
+                    <text x="200" y="165" class="graph-node-label">RAG</text>
+                </g>
+
+                <!-- Stage 4b -->
+                <g class="graph-node locked" id="map-node-4b" onclick="scrollToStage('stage-4')">
+                    <circle cx="400" cy="190" r="18" />
+                    <text x="400" y="190">4b</text>
+                    <text x="400" y="165" class="graph-node-label">MCP</text>
+                </g>
+
+                <!-- Stage 5a -->
+                <g class="graph-node locked" id="map-node-5a" onclick="scrollToStage('stage-5')">
+                    <circle cx="150" cy="240" r="18" />
+                    <text x="150" y="240">5a</text>
+                    <text x="100" y="240" class="graph-node-label">Agentic Loops</text>
+                </g>
+
+                <!-- Node 5b -->
+                <g class="graph-node locked" id="map-node-5b" onclick="scrollToStage('stage-5')">
+                    <circle cx="300" cy="240" r="18" />
+                    <text x="300" y="240">5b</text>
+                    <text x="300" y="263" class="graph-node-label">LangGraph</text>
+                </g>
+
+                <!-- Node 5c -->
+                <g class="graph-node locked" id="map-node-5c" onclick="scrollToStage('stage-5')">
+                    <circle cx="450" cy="240" r="18" />
+                    <text x="450" y="240">5c</text>
+                    <text x="505" y="240" class="graph-node-label">Multi-Agent</text>
+                </g>
+
+                <!-- Node 6a -->
+                <g class="graph-node locked" id="map-node-6a" onclick="scrollToStage('stage-6')">
+                    <circle cx="150" cy="290" r="18" />
+                    <text x="150" y="290">6a</text>
+                    <text x="100" y="290" class="graph-node-label">Evals</text>
+                </g>
+
+                <!-- Node 6b -->
+                <g class="graph-node locked" id="map-node-6b" onclick="scrollToStage('stage-6')">
+                    <circle cx="300" cy="290" r="18" />
+                    <text x="300" y="290">6b</text>
+                    <text x="300" y="313" class="graph-node-label">Observability</text>
+                </g>
+
+                <!-- Node 6c -->
+                <g class="graph-node locked" id="map-node-6c" onclick="scrollToStage('stage-6')">
+                    <circle cx="450" cy="290" r="18" />
+                    <text x="450" y="290">6c</text>
+                    <text x="500" y="290" class="graph-node-label">Routing</text>
+                </g>
+
+                <!-- Node 7a -->
+                <g class="graph-node locked" id="map-node-7a" onclick="scrollToStage('stage-7')">
+                    <circle cx="150" cy="340" r="18" />
+                    <text x="150" y="340">7a</text>
+                    <text x="95" y="340" class="graph-node-label">Guardrails</text>
+                </g>
+
+                <!-- Node 7b -->
+                <g class="graph-node locked" id="map-node-7b" onclick="scrollToStage('stage-7')">
+                    <circle cx="300" cy="340" r="18" />
+                    <text x="300" y="340">7b</text>
+                    <text x="300" y="363" class="graph-node-label">Finetuning</text>
+                </g>
+
+                <!-- Node 7c -->
+                <g class="graph-node locked" id="map-node-7c" onclick="scrollToStage('stage-7')">
+                    <circle cx="450" cy="340" r="18" />
+                    <text x="450" y="340">7c</text>
+                    <text x="505" y="340" class="graph-node-label">Architecture</text>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Roadmap Content Container -->
+    <div class="roadmap-container">
+
+        <!-- STAGE 1 -->
+        <div class="stage-wrapper" id="stage-1" data-stage="1">
+            <div class="stage-header">
+                <div>
+                    <div class="stage-badge">Foundational Core</div>
+                    <h3 class="stage-title">Stage 1 — The Root</h3>
+                    <div class="stage-desc">Everything else builds on this. Understand the core mechanics of transformers, tokenization boundaries, and embedding mappings.</div>
+                </div>
+                <div class="stage-progress-badge" id="progress-stage-1">0% Done</div>
+            </div>
+
+            <!-- Topic 1 -->
+            <div class="topic-card" id="card-s1-t1">
+                <div class="card-header-bar" onclick="toggleCard('card-s1-t1')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s1-t1" onchange="toggleEntireNode('card-s1-t1', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>1. LLMs & Transformers — How it Actually Works</h4>
+                            <p>Attention, tokens, next-token prediction, context windows, temperature, embeddings</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s1-t1">0/5 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Learn LLMs from first principles for a strong developer — mechanically precise, not just high level.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s1-t1')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s1-t1">Explain how LLMs work from first principles for a strong developer — not math-heavy, but mechanically precise. Cover: tokenisation, the transformer block, what attention actually does (intuitively), how next-token prediction works, what temperature and top-p do, what context windows really are, and what embeddings are. End with the 3 biggest misconceptions developers have about LLMs.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t1-1" onchange="onTaskChange('card-s1-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Ask the detailed mechanical query to Claude.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t1-2" onchange="onTaskChange('card-s1-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-watch">🎥 Watch</span> Watch 3Blue1Brown's video: <a href="https://www.youtube.com/watch?v=wjZofJX0v4M" target="_blank">But what is a GPT?</a> (YouTube, 27 min).
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t1-3" onchange="onTaskChange('card-s1-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Study Jay Alammar's visual post: <a href="https://jalammar.github.io/illustrated-transformer/" target="_blank">The Illustrated Transformer</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t1-4" onchange="onTaskChange('card-s1-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-watch">🎥 Watch</span> Complete Andrej Karpathy's deep-dive video: <a href="https://www.youtube.com/watch?v=kCc8FmEb1nY" target="_blank">Let's build GPT from scratch (2hr)</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s1-t1-5" onchange="onTaskChange('card-s1-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Build a tiny bigram language model from scratch in Python (~100 lines) following Karpathy's video.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STAGE 2 -->
+        <div class="stage-wrapper locked" id="stage-2" data-stage="2">
+            <div class="stage-lock-overlay">
+                <span class="lock-icon-large">🔒</span>
+                <div class="lock-text">Stage 2 Locked</div>
+                <div class="lock-subtext">Complete Stage 1 (The Root) to unlock.</div>
+            </div>
+
+            <div class="stage-header">
+                <div>
+                    <div class="stage-badge">Interfacing Core</div>
+                    <h3 class="stage-title">Stage 2 — Prompting</h3>
+                    <div class="stage-desc">Establish prompt engineering as a structured system, learning Chain of Thought, few-shot evaluations, and prompt versioning.</div>
+                </div>
+                <div class="stage-progress-badge" id="progress-stage-2">0% Done</div>
+            </div>
+
+            <!-- Topic 1 -->
+            <div class="topic-card" id="card-s2-t1">
+                <div class="card-header-bar" onclick="toggleCard('card-s2-t1')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s2-t1" onchange="toggleEntireNode('card-s2-t1', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>2. Prompt Engineering as a System</h4>
+                            <p>System prompts, few-shot, chain-of-thought, prompt versioning, injection defence, meta-prompting</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s2-t1">0/4 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Learn to design prompts as robust engineering assets rather than trial-and-error strings.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s2-t1')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s2-t1">Explain prompt engineering as a proper engineering discipline, not just tips. Cover: system prompts and how they interact with user turns, few-shot examples and when they help, chain-of-thought and when to force it, how to version and test prompts, what prompt injection is and how to defend against it, what meta-prompting is, and how to write prompts that are robust across edge cases. Give concrete before/after examples.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s2-t1-1" onchange="onTaskChange('card-s2-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn structure, system instructions, and injection defensive design.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s2-t1-2" onchange="onTaskChange('card-s2-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Study the official <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank">Anthropic Prompt Engineering Docs</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s2-t1-3" onchange="onTaskChange('card-s2-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Explore comprehensive techniques on <a href="https://www.promptingguide.ai/" target="_blank">PromptingGuide.ai</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s2-t1-4" onchange="onTaskChange('card-s2-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Automate one manual chore. Build 5 distinct prompts, test on 10 inputs, and write a Python script evaluating results.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STAGE 3 -->
+        <div class="stage-wrapper locked" id="stage-3" data-stage="3">
+            <div class="stage-lock-overlay">
+                <span class="lock-icon-large">🔒</span>
+                <div class="lock-text">Stage 3 Locked</div>
+                <div class="lock-subtext">Complete Stage 2 (Prompting) to unlock.</div>
+            </div>
+
+            <div class="stage-header">
+                <div>
+                    <div class="stage-badge">Interfacing Core</div>
+                    <h3 class="stage-title">Stage 3 — Tool Use</h3>
+                    <div class="stage-desc">Connect LLMs to code environments, parsing schemas, managing tool turns, and structuring JSON outputs.</div>
+                </div>
+                <div class="stage-progress-badge" id="progress-stage-3">0% Done</div>
+            </div>
+
+            <!-- Topic 1 -->
+            <div class="topic-card" id="card-s3-t1">
+                <div class="card-header-bar" onclick="toggleCard('card-s3-t1')">
+                    <div class="card-header-left">
+                        <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="check-node-s3-t1" onchange="toggleEntireNode('card-s3-t1', this)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="topic-titles">
+                            <h4>3. Tool Use & Function Calling</h4>
+                            <p>LLM tool selections, schemas, streaming tool arguments, and execution returns</p>
+                        </div>
+                    </div>
+                    <div class="card-header-right">
+                        <span class="card-progress-indicator" id="progress-text-s3-t1">0/4 Tasks</span>
+                        <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="card-content-panel">
+                    <div class="card-inner-body">
+                        <p>Master the exact loop: User prompt $\rightarrow$ Schema payload $\rightarrow$ Local execution $\rightarrow$ Return inject.</p>
+
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <div class="prompt-title-wrapper">🤖 Claude Prompt</div>
+                                <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s3-t1')">📋 Copy Prompt</button>
+                            </div>
+                            <pre class="prompt-body" id="prompt-s3-t1">Explain tool use and function calling in LLMs precisely — how does the model decide to call a tool, what does the API request and response look like, how do I handle tool results and pass them back, what are structured outputs and how do I enforce JSON schemas, how does streaming interact with tool calls, and what are common mistakes? Show a concrete working example with a real API.</pre>
+                        </div>
+
+                        <ul class="task-list">
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s3-t1-1" onchange="onTaskChange('card-s3-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-ask">💬 Ask</span> Learn schema formatting, tool selection loops, and execution models.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s3-t1-2" onchange="onTaskChange('card-s3-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Study the definitive <a href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use/overview" target="_blank">Anthropic Tool Use Docs</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s3-t1-3" onchange="onTaskChange('card-s3-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-read">📄 Read</span> Reference code structures in the <a href="https://platform.openai.com/docs/guides/function-calling" target="_blank">OpenAI Function Calling Guide</a>.
+                                    </span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="task-item-label">
+                                    <input type="checkbox" id="task-s3-t1-4" onchange="onTaskChange('card-s3-t1')">
+                                    <span class="task-item-text">
+                                        <span class="task-type-badge badge-build">🛠️ Build</span> Build a Python chatbot with 3 real tools: <code>get_weather</code>, <code>search_web</code>, and <code>run_code</code>. Write the coordinator loop manually.
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STAGE 4 (PARALLEL LANES) -->
+        <div>
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 600; margin-bottom: 25px; text-align: center; color: var(--accent-primary);">
+                Stage 4 — Data + Connectivity (Parallel Tracks)
+            </div>
+
+            <div class="parallel-tracks-container two-columns">
+
+                <!-- 4a. RAG -->
+                <div class="track-lane" id="lane-stage-4a">
+                    <div class="track-banner">
+                        <h4>Lane A: RAG</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-4a')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-4a" data-stage="4" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 4a Locked</div>
+                            <div class="lock-subtext">Complete Stage 3 to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.3rem;">4a. Retrieval Augmented Generation</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">Master vectors, chunking, hybrid queries, and rerank metrics.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-4a" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s4a-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s4a-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s4a-t1" onchange="toggleEntireNode('card-s4a-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Vector Indices & Chunking</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s4a-t1">0/5 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s4a-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s4a-t1">Explain RAG from first principles for a developer who understands embeddings conceptually. Cover: why RAG exists (context limits + stale training data), how embeddings encode meaning, what vector DBs do and how ANN search works, chunking strategies and why naive chunking fails, hybrid search (keyword + semantic), reranking, and the eval question — how do I know my RAG is actually working? Point out the 3 most common RAG mistakes.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4a-t1-1" onchange="onTaskChange('card-s4a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn embeddings mappings, ANN indices, and chunk models.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4a-t1-2" onchange="onTaskChange('card-s4a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-watch">🎥 Watch</span> Watch Pinecone's video: <a href="https://www.youtube.com/watch?v=sVcwVQRHIc8" target="_blank">RAG explained (15m)</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4a-t1-3" onchange="onTaskChange('card-s4a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read LlamaIndex's structural guide: <a href="https://docs.llamaindex.ai/en/stable/getting_started/concepts/" target="_blank">Core Concepts</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4a-t1-4" onchange="onTaskChange('card-s4a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read Langchain's conceptual documentation: <a href="https://python.langchain.com/docs/concepts/rag/" target="_blank">RAG Guide</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4a-t1-5" onchange="onTaskChange('card-s4a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Ingest your own code files or markdown diaries into ChromaDB or FAISS. Build a chat interface querying it.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4b. MCP -->
+                <div class="track-lane" id="lane-stage-4b">
+                    <div class="track-banner">
+                        <h4>Lane B: MCP</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-4b')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-4b" data-stage="4" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 4b Locked</div>
+                            <div class="lock-subtext">Complete Stage 3 to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.3rem;">4b. Model Context Protocol</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">Standardized protocol for data resources, prompts, and server tools.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-4b" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s4b-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s4b-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s4b-t1" onchange="toggleEntireNode('card-s4b-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>MCP Protocol Standards</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s4b-t1">0/5 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s4b-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s4b-t1">Explain MCP (Model Context Protocol) precisely for a developer who already understands tool use. Cover: what problem MCP solves that raw function calling doesn't, the protocol architecture (client, server, host), the 3 primitives (tools, resources, prompts), transport options (stdio vs SSE), how to write a minimal MCP server in Python or Node, security considerations, and when to use MCP vs just hardcoding tool calls.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4b-t1-1" onchange="onTaskChange('card-s4b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn MCP primitives (tools, resources, prompt templates).</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4b-t1-2" onchange="onTaskChange('card-s4b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study the official protocol site: <a href="https://modelcontextprotocol.io/introduction" target="_blank">modelcontextprotocol.io</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4b-t1-3" onchange="onTaskChange('card-s4b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-watch">🎥 Watch</span> Watch Fireship's introductory summary: <a href="https://www.youtube.com/watch?v=7j_NE6Pjv-E" target="_blank">MCP explained in 100 seconds</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4b-t1-4" onchange="onTaskChange('card-s4b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read official open source examples: <a href="https://github.com/modelcontextprotocol/servers" target="_blank">MCP reference servers on GitHub</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s4b-t1-5" onchange="onTaskChange('card-s4b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Write a filesystem MCP server in Python or Node; connect it to Claude Desktop and query folders.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- STAGE 5 (THREE PARALLEL COLUMNS) -->
+        <div>
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 600; margin-bottom: 25px; text-align: center; color: var(--accent-primary);">
+                Stage 5 — Agents & Orchestration (Parallel Tracks)
+            </div>
+
+            <div class="parallel-tracks-container">
+
+                <!-- 5a. Agents -->
+                <div class="track-lane" id="lane-stage-5a">
+                    <div class="track-banner">
+                        <h4>Lane A: Agentic Loops</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-5a')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-5a" data-stage="5" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 5a Locked</div>
+                            <div class="lock-subtext">Complete Stage 4a and 4b to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.2rem;">5a. Raw Agents</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">ReAct loops, short/long-term memory, and self-critiques.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-5a" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s5a-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s5a-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s5a-t1" onchange="toggleEntireNode('card-s5a-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>ReAct & Memory</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s5a-t1">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s5a-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s5a-t1">Explain AI agents precisely for a developer who knows tool use. Cover: what makes something an agent vs a chain, the ReAct (reason + act) loop step by step, the 4 types of memory (in-context, external, episodic, semantic), how planning works (task decomposition), when agents fail and why, how to add self-critique loops, and the key question — when should I use an agent vs a simpler approach?</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5a-t1-1" onchange="onTaskChange('card-s5a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn memory architectures, plan pipelines and critique loops.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5a-t1-2" onchange="onTaskChange('card-s5a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study Lilian Weng's definitive survey: <a href="https://lilianweng.github.io/posts/2023-06-23-agent/" target="_blank">LLM Powered Autonomous Agents</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5a-t1-3" onchange="onTaskChange('card-s5a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read Anthropic's developer guide: <a href="https://docs.anthropic.com/en/docs/build-with-claude/agents" target="_blank">Agents Guide</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5a-t1-4" onchange="onTaskChange('card-s5a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Build a web research agent without any libraries (raw API client loops).</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5b. LangGraph -->
+                <div class="track-lane" id="lane-stage-5b">
+                    <div class="track-banner">
+                        <h4>Lane B: Workflow Orchestration</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-5b')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-5b" data-stage="5" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 5b Locked</div>
+                            <div class="lock-subtext">Complete Stage 4a and 4b to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.2rem;">5b. LangGraph</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">Nodes, edges, cycles, state transitions, and checkpoints.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-5b" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s5b-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s5b-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s5b-t1" onchange="toggleEntireNode('card-s5b-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Graph State Machines</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s5b-t1">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s5b-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s5b-t1">Explain LangGraph to a developer who has already built a raw agent loop. Cover: what problem LangGraph solves (explicit state, cycles, branching), how a graph differs from a chain, the key primitives (state, nodes, edges, conditional edges), how checkpointing works for human-in-the-loop, when to use LangGraph vs a simpler approach, and what the most common graph design mistakes are.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5b-t1-1" onchange="onTaskChange('card-s5b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn graph structures, explicit state management, and checkpoints.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5b-t1-2" onchange="onTaskChange('card-s5b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Complete the official <a href="https://langchain-ai.github.io/langgraph/tutorials/introduction/" target="_blank">LangGraph Tutorial</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5b-t1-3" onchange="onTaskChange('card-s5b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-watch">🎥 Watch</span> Watch FreeCodeCamp's tutorial video: <a href="https://www.youtube.com/watch?v=5h-JBkySK34" target="_blank">LangGraph Crash Course</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5b-t1-4" onchange="onTaskChange('card-s5b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Rebuild the research agent in LangGraph. Add a human approval step.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5c. Multi-Agent -->
+                <div class="track-lane" id="lane-stage-5c">
+                    <div class="track-banner">
+                        <h4>Lane C: Multi-Agent Systems</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-5c')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-5c" data-stage="5" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 5c Locked</div>
+                            <div class="lock-subtext">Complete Stage 4a and 4b to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.2rem;">5c. Orchestrator Networks</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">Delegation networks, task routers, and shared state communications.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-5c" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s5c-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s5c-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s5c-t1" onchange="toggleEntireNode('card-s5c-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Multi-Agent Delegation</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s5c-t1">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s5c-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s5c-t1">Explain multi-agent systems for a developer who has built single agents. Cover: why multiple agents (specialisation, parallelism, reliability), the orchestrator-worker pattern in detail, how agents communicate (structured messages, shared state, tool calls to other agents), how to handle failures in a multi-agent system, what trust boundaries mean between agents, and when multi-agent is overkill vs genuinely needed.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5c-t1-1" onchange="onTaskChange('card-s5c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn coordinator networks, routing messages, and sync boundaries.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5c-t1-2" onchange="onTaskChange('card-s5c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Review Anthropic's multi-agent patterns docs: <a href="https://docs.anthropic.com/en/docs/build-with-claude/agents#multi-agent-frameworks" target="_blank">Multi-Agent Frameworks</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5c-t1-3" onchange="onTaskChange('card-s5c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read the agent design post: <a href="https://www.anthropic.com/research/building-effective-agents" target="_blank">Building Effective Agents</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s5c-t1-4" onchange="onTaskChange('card-s5c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Build a 2-agent network: a Planner agent decomposing queries, and an Executor doing jobs. Planner critiques outcomes.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- STAGE 6 (THREE PARALLEL COLUMNS) -->
+        <div>
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 600; margin-bottom: 25px; text-align: center; color: var(--accent-primary);">
+                Stage 6 — Production System Layer (Parallel Tracks)
+            </div>
+
+            <div class="parallel-tracks-container">
+
+                <!-- 6a. Evals -->
+                <div class="track-lane" id="lane-stage-6a">
+                    <div class="track-banner">
+                        <h4>Lane A: Testing & Evals</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-6a')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-6a" data-stage="6" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 6a Locked</div>
+                            <div class="lock-subtext">Complete Stage 5a, 5b and 5c to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.2rem;">6a. LLM Evals</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">LLM-as-judge, prompt regression testing, and evaluation metrics.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-6a" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s6a-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s6a-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s6a-t1" onchange="toggleEntireNode('card-s6a-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Evaluation Pipelines</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s6a-t1">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s6a-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s6a-t1">Explain LLM evals as an engineering practice. Cover: why unit tests don't work for LLMs, the 3 eval types (human, automated metric, LLM-as-judge), how to design an eval dataset, what LLM-as-judge looks like in practice and its failure modes, how to catch prompt regressions before deploying, what tools exist (promptfoo, Braintrust, Langfuse evals), and what a minimal but useful eval pipeline looks like for a solo developer.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6a-t1-1" onchange="onTaskChange('card-s6a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn automated metrics, LLM judges, and regression sets.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6a-t1-2" onchange="onTaskChange('card-s6a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read Hamel Husain's guide: <a href="https://hamel.dev/blog/posts/evals/" target="_blank">Your AI Product Needs Evals</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6a-t1-3" onchange="onTaskChange('card-s6a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study the open source testing tool docs: <a href="https://www.promptfoo.dev/docs/intro" target="_blank">Promptfoo Docs</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6a-t1-4" onchange="onTaskChange('card-s6a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Create a 20-item dataset for your RAG chatbot. Build a python script with an LLM judge scoring outputs 1-5.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6b. Observability -->
+                <div class="track-lane" id="lane-stage-6b">
+                    <div class="track-banner">
+                        <h4>Lane B: Tracing & Logs</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-6b')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-6b" data-stage="6" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 6b Locked</div>
+                            <div class="lock-subtext">Complete Stage 5a, 5b and 5c to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.2rem;">6b. Observability</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">Traces, latency profiling, costs estimation, and token counting.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-6b" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s6b-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s6b-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s6b-t1" onchange="toggleEntireNode('card-s6b-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Observability & Tracing</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s6b-t1">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s6b-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s6b-t1">Explain LLM observability for a developer shipping AI apps. Cover: what a trace is and why it's different from regular logging, what you should instrument in an agent (inputs, tool calls, outputs, latency, token costs), how LangSmith and Langfuse differ, how to debug a broken agent run from a trace, what cost monitoring looks like in practice, and what the minimum viable observability setup looks like for a solo dev project.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6b-t1-1" onchange="onTaskChange('card-s6b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn spans tracing, agent token cost metrics, and Langfuse integrations.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6b-t1-2" onchange="onTaskChange('card-s6b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study the open source tracing platform: <a href="https://langfuse.com/docs/get-started" target="_blank">Langfuse Docs</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6b-t1-3" onchange="onTaskChange('card-s6b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Review LangChain's observability docs: <a href="https://docs.smith.langchain.com/" target="_blank">LangSmith Docs</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6b-t1-4" onchange="onTaskChange('card-s6b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Integrate Langfuse/Langsmith SDK into your agent. Trace 20 runs and spot the costliest token loop.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6c. Routing -->
+                <div class="track-lane" id="lane-stage-6c">
+                    <div class="track-banner">
+                        <h4>Lane C: Routing & Gateways</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-6c')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-6c" data-stage="6" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 6c Locked</div>
+                            <div class="lock-subtext">Complete Stage 5a, 5b and 5c to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.2rem;">6c. Gateways</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">LiteLLM API proxies, fallback models, semantic caches, and rate limits.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-6c" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s6c-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s6c-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s6c-t1" onchange="toggleEntireNode('card-s6c-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Universal Gateways</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s6c-t1">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s6c-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s6c-t1">Explain LLM gateways and routing for a developer building production AI apps. Cover: what problem a gateway solves (single provider risk, cost, rate limits), how LiteLLM works as a universal adapter, what model routing strategies exist (cost-based, latency-based, fallback), how semantic caching works and what you actually save, what Portkey adds over LiteLLM, and when you genuinely need this vs when it's overengineering.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6c-t1-1" onchange="onTaskChange('card-s6c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn fallback rules, semantic key cache checks, and proxy adapters.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6c-t1-2" onchange="onTaskChange('card-s6c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read the adapter library documentation: <a href="https://docs.litellm.ai/docs/" target="_blank">LiteLLM Docs</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6c-t1-3" onchange="onTaskChange('card-s6c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study integration features in <a href="https://portkey.ai/docs" target="_blank">Portkey Docs</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s6c-t1-4" onchange="onTaskChange('card-s6c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Wire LiteLLM proxy: Client requests Claude, triggers fallback to GPT-4o on rate errors. Enable semantic caching.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- STAGE 7 (THREE PARALLEL COLUMNS) -->
+        <div>
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 600; margin-bottom: 25px; text-align: center; color: var(--accent-primary);">
+                Stage 7 — Advanced Engineering (Parallel Tracks)
+            </div>
+
+            <div class="parallel-tracks-container">
+
+                <!-- 7a. Guardrails -->
+                <div class="track-lane" id="lane-stage-7a">
+                    <div class="track-banner">
+                        <h4>Lane A: Safety & Rails</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-7a')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-7a" data-stage="7" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 7a Locked</div>
+                            <div class="lock-subtext">Complete Stage 6a, 6b and 6c to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.2rem;">7a. Guardrails</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">Input validations, PII redacts, and jailbreak defences.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-7a" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s7a-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s7a-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s7a-t1" onchange="toggleEntireNode('card-s7a-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Jailbreak Defence</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s7a-t1">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s7a-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s7a-t1">Explain AI guardrails for production apps to a developer. Cover: the difference between input and output guardrails, what prompt injection actually looks like in an agent with external tools, how to defend against it architecturally, PII detection and redaction approaches, content moderation strategies, what tools exist (Guardrails AI, Llama Guard, NeMo), and what a minimal but serious guardrail stack looks like for a real app.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7a-t1-1" onchange="onTaskChange('card-s7a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn indirect prompt injection, input/output validation, and PII filters.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7a-t1-2" onchange="onTaskChange('card-s7a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Study prompt hacking concepts on <a href="https://learnprompting.org/docs/prompt_hacking/injection" target="_blank">LearnPrompting Guide</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7a-t1-3" onchange="onTaskChange('card-s7a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Review schema validations in the <a href="https://www.guardrailsai.com/docs" target="_blank">Guardrails AI Docs</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7a-t1-4" onchange="onTaskChange('card-s7a-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Attempt an indirect prompt injection attack against your Stage 5a agent. Write a mitigation parser.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7b. Finetuning -->
+                <div class="track-lane" id="lane-stage-7b">
+                    <div class="track-banner">
+                        <h4>Lane B: Finetuning</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-7b')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-7b" data-stage="7" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 7b Locked</div>
+                            <div class="lock-subtext">Complete Stage 6a, 6b and 6c to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.2rem;">7b. Finetuning</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">LoRA parameters, QLoRA quantization, PEFT datasets.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-7b" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s7b-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s7b-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s7b-t1" onchange="toggleEntireNode('card-s7b-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Parameter Tuning</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s7b-t1">0/5 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s7b-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s7b-t1">Explain finetuning honestly for a developer who has already tried prompting and RAG. Cover: when finetuning is actually the right answer (and when it's not), how LoRA and QLoRA work at the parameter level, what PEFT is, how to prepare a good training dataset, what the training loop looks like, how to evaluate if a finetune improved things, what it costs (GPU hours, money), and what tools/platforms exist to do it without a PhD.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7b-t1-1" onchange="onTaskChange('card-s7b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn parameter weight updates, adapters, QLoRA quantization, and losses.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7b-t1-2" onchange="onTaskChange('card-s7b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-watch">🎥 Watch</span> Watch Abhishek Thakur's video: <a href="https://www.youtube.com/watch?v=eC6Hd1hFvos" target="_blank">Finetuning LLMs</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7b-t1-3" onchange="onTaskChange('card-s7b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read HuggingFace's library overview: <a href="https://huggingface.co/docs/trl/index" target="_blank">TRL docs</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7b-t1-4" onchange="onTaskChange('card-s7b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read Modal's deployment post: <a href="https://modal.com/blog/fine-tuning-llms" target="_blank">Fine-tuning Guide</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7b-t1-5" onchange="onTaskChange('card-s7b-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Finetune Llama-3 8B on a custom formatting dataset using QLoRA on a Colab T4 node.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7c. Architecture -->
+                <div class="track-lane" id="lane-stage-7c">
+                    <div class="track-banner">
+                        <h4>Lane C: AI App Architecture</h4>
+                        <button class="track-focus-toggle" onclick="focusTrack('lane-stage-7c')">Focus on Lane</button>
+                    </div>
+
+                    <div class="stage-wrapper locked" id="stage-7c" data-stage="7" style="padding: 24px; height: 100%;">
+                        <div class="stage-lock-overlay">
+                            <span class="lock-icon-large">🔒</span>
+                            <div class="lock-text">Stage 7c Locked</div>
+                            <div class="lock-subtext">Complete Stage 6a, 6b and 6c to unlock.</div>
+                        </div>
+
+                        <div class="stage-header" style="margin-bottom: 25px; padding-bottom: 12px;">
+                            <div>
+                                <h3 class="stage-title" style="font-size: 1.2rem;">7c. AI Architecture</h3>
+                                <div class="stage-desc" style="font-size: 0.82rem;">SSE streaming outputs, task queues, and token budget limits.</div>
+                            </div>
+                            <div class="stage-progress-badge" id="progress-stage-7c" style="margin-top: 10px;">0% Done</div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="topic-card" id="card-s7c-t1">
+                            <div class="card-header-bar" onclick="toggleCard('card-s7c-t1')">
+                                <div class="card-header-left">
+                                    <label class="card-checkbox-wrapper" onclick="event.stopPropagation()">
+                                        <input type="checkbox" id="check-node-s7c-t1" onchange="toggleEntireNode('card-s7c-t1', this)">
+                                        <span class="custom-checkbox"></span>
+                                    </label>
+                                    <div class="topic-titles">
+                                        <h4>Streaming & Tasks Queue</h4>
+                                    </div>
+                                </div>
+                                <div class="card-header-right">
+                                    <span class="card-progress-indicator" id="progress-text-s7c-t1">0/4 Tasks</span>
+                                    <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content-panel">
+                                <div class="card-inner-body">
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">Claude Prompt</span>
+                                            <button class="btn-copy" onclick="copyPrompt(this, 'prompt-s7c-t1')">📋 Copy</button>
+                                        </div>
+                                        <pre class="prompt-body" id="prompt-s7c-t1">Explain AI-native app architecture for a developer who builds regular web apps. Cover: why streaming is non-negotiable for LLM UX and how to implement it end-to-end (SSE, WebSockets), async patterns for long-running agent tasks, caching strategies (semantic, exact-match, response caching), how to structure an AI backend (separation of concerns, prompt storage, model abstraction), cost management at scale, and the 3 architectural mistakes most AI apps make.</pre>
+                                    </div>
+
+                                    <ul class="task-list">
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7c-t1-1" onchange="onTaskChange('card-s7c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-ask">💬 Ask</span> Learn SSE protocols, WebSocket streaming, and Celery agent task architectures.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7c-t1-2" onchange="onTaskChange('card-s7c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Read Vercel's guide: <a href="https://vercel.com/blog/ai-sdk-3-generative-ui" target="_blank">Generative UI Post</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7c-t1-3" onchange="onTaskChange('card-s7c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-read">📄 Read</span> Review Anthropic's details: <a href="https://docs.anthropic.com/en/docs/build-with-claude/streaming" target="_blank">Streaming Docs</a>.</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="task-item-label">
+                                                <input type="checkbox" id="task-s7c-t1-4" onchange="onTaskChange('card-s7c-t1')">
+                                                <span class="task-item-text"><span class="task-type-badge badge-build">🛠️ Build</span> Add SSE streaming and an async Celery task queue to your research agent app. Set up cost budgets.</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Floating UI -->
+    <div class="floating-progress-container">
+        <button class="btn-scroll-top" id="btn-scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Scroll to Top">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>AI / LLM Developer Roadmap</p>
+        <p>Built with Outfit, Space Grotesk, and Plus Jakarta Sans.</p>
+    </footer>
+
+    <!-- Interactive JS Script -->
+    <script>
+        // Track Dependency Locking configuration
+        let locksEnabled = true;
+
+        // Theme management
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('roadmap-theme-ai', newTheme);
+            updateThemeToggleButton(newTheme);
+        }
+
+        function updateThemeToggleButton(theme) {
+            const themeToggleIcon = document.getElementById('theme-toggle-icon');
+            if (theme === 'dark') {
+                themeToggleIcon.textContent = '☀️';
+            } else {
+                themeToggleIcon.textContent = '🌙';
+            }
+        }
+
+        // Lock toggler
+        function toggleDependencyLocking() {
+            locksEnabled = !locksEnabled;
+            const btn = document.getElementById('btn-lock-toggle');
+            const label = document.getElementById('lock-toggle-label');
+            const icon = document.getElementById('lock-toggle-icon');
+
+            if (locksEnabled) {
+                btn.style.borderColor = 'var(--accent-primary)';
+                label.textContent = 'Locks Enabled';
+                icon.textContent = '🔒';
+            } else {
+                btn.style.borderColor = 'var(--border-card)';
+                label.textContent = 'Locks Disabled';
+                icon.textContent = '🔓';
+            }
+
+            evaluateLocks();
+        }
+
+        // Accordion functionality
+        function toggleCard(cardId) {
+            const card = document.getElementById(cardId);
+            card.classList.toggle('open');
+        }
+
+        // Copy functionality
+        function copyPrompt(button, promptId) {
+            const promptText = document.getElementById(promptId).innerText;
+            navigator.clipboard.writeText(promptText).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = '✅ Copied!';
+                button.style.borderColor = 'var(--success)';
+                button.style.color = 'var(--success)';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.borderColor = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Node level check box logic
+        function toggleEntireNode(cardId, masterCheckbox) {
+            const card = document.getElementById(cardId);
+            const checkboxes = card.querySelectorAll('.task-list input[type="checkbox"]');
+            
+            checkboxes.forEach(cb => {
+                cb.checked = masterCheckbox.checked;
+                localStorage.setItem(cb.id, cb.checked);
+            });
+
+            updateCardProgress(cardId);
+            recalculateAllProgress();
+        }
+
+        // Individual sub-task checkbox changes
+        function onTaskChange(cardId) {
+            updateCardProgress(cardId);
+            recalculateAllProgress();
+        }
+
+        // Updates the card progress pill and matches the master checkbox state
+        function updateCardProgress(cardId) {
+            const card = document.getElementById(cardId);
+            const checkboxes = card.querySelectorAll('.task-list input[type="checkbox"]');
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            
+            // Save state of each checkbox
+            checkboxes.forEach(cb => {
+                localStorage.setItem(cb.id, cb.checked);
+            });
+
+            // Update sub-progress indicators
+            const progressPill = document.getElementById(`progress-text-${cardId.replace('card-', '')}`);
+            if (progressPill) {
+                progressPill.textContent = `${checkedCount}/${checkboxes.length} Tasks`;
+            }
+
+            // Update master check
+            const masterCheck = document.getElementById(`check-node-${cardId.replace('card-', '')}`);
+            if (masterCheck) {
+                masterCheck.checked = (checkedCount === checkboxes.length);
+            }
+        }
+
+        // Scroll to stage
+        function scrollToStage(stageId) {
+            const element = document.getElementById(stageId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // If stage is locked, add shake effect
+                if (element.classList.contains('locked') && locksEnabled) {
+                    element.style.animation = 'none';
+                    element.offsetHeight; // trigger reflow
+                    element.style.animation = 'float 0.4s ease 2';
+                }
+            }
+        }
+
+        // Helper to check if a stage is 100% completed
+        function isStageComplete(sNum) {
+            const stageEls = document.querySelectorAll(`[data-stage="${sNum}"]`);
+            if (stageEls.length === 0) return false;
+            
+            let allChecked = true;
+            stageEls.forEach(stageEl => {
+                const checkboxes = stageEl.querySelectorAll('.task-list input[type="checkbox"]');
+                const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+                if (checkboxes.length === 0 || checked < checkboxes.length) {
+                    allChecked = false;
+                }
+            });
+            return allChecked;
+        }
+
+        // Calculate progress for each stage and the overall roadmap
+        function recalculateAllProgress() {
+            const stages = [1, 2, 3, "4a", "4b", "5a", "5b", "5c", "6a", "6b", "6c", "7a", "7b", "7c"];
+            let totalTasks = 0;
+            let totalCheckedTasks = 0;
+
+            stages.forEach(stageId => {
+                const stageEl = document.getElementById(`stage-${stageId}`);
+                if (!stageEl) return;
+                const checkboxes = stageEl.querySelectorAll('.task-list input[type="checkbox"]');
+                const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+                
+                totalTasks += checkboxes.length;
+                totalCheckedTasks += checked;
+
+                const pct = checkboxes.length > 0 ? Math.round((checked / checkboxes.length) * 100) : 0;
+                
+                const badge = document.getElementById(`progress-stage-${stageId}`);
+                if (badge) {
+                    badge.textContent = `${pct}% Done`;
+                }
+
+                // Update visual representation in SVG map
+                const mapNode = document.getElementById(`map-node-${stageId}`);
+                if (mapNode) {
+                    mapNode.classList.remove('completed', 'active');
+                    if (pct === 100) {
+                        mapNode.classList.add('completed');
+                    } else if (pct > 0) {
+                        mapNode.classList.add('active');
+                    }
+                }
+            });
+
+            // Stage group progresses
+            const groupStages = [1, 2, 3, 5, 6, 7];
+            groupStages.forEach(sNum => {
+                const stageEl = document.getElementById(`stage-${sNum}`);
+                if (!stageEl) return;
+                const checkboxes = stageEl.querySelectorAll('.task-list input[type="checkbox"]');
+                const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+                const pct = checkboxes.length > 0 ? Math.round((checked / checkboxes.length) * 100) : 0;
+                document.getElementById(`progress-stage-${sNum}`).textContent = `${pct}% Done`;
+            });
+
+            // Update overall text
+            const overallPct = totalTasks > 0 ? Math.round((totalCheckedTasks / totalTasks) * 100) : 0;
+            document.getElementById('overall-progress-bar').style.width = `${overallPct}%`;
+            document.getElementById('overall-progress-text').textContent = `${overallPct}%`;
+
+            // Re-evaluate dependencies locks
+            evaluateLocks();
+        }
+
+        // Lock logic
+        function evaluateLocks() {
+            const stages = ["1", "2", "3", "4a", "4b", "5a", "5b", "5c", "6a", "6b", "6c", "7a", "7b", "7c"];
+
+            stages.forEach(stageId => {
+                const stageWrapper = document.getElementById(`stage-${stageId}`);
+                if (!stageWrapper) return;
+                const mapNode = document.getElementById(`map-node-${stageId}`);
+                
+                if (stageId === "1" || !locksEnabled) {
+                    stageWrapper.classList.remove('locked');
+                    if (mapNode && !mapNode.classList.contains('completed') && !mapNode.classList.contains('active')) {
+                        mapNode.classList.remove('locked');
+                    }
+                    return;
+                }
+
+                // Check prerequisites
+                let allMet = false;
+                if (stageId === "2") {
+                    allMet = isStageComplete(1);
+                } else if (stageId === "3") {
+                    allMet = isStageComplete(2);
+                } else if (stageId === "4a" || stageId === "4b") {
+                    allMet = isStageComplete(3);
+                } else if (stageId === "5a" || stageId === "5b" || stageId === "5c") {
+                    allMet = isStageComplete("4a") && isStageComplete("4b");
+                } else if (stageId === "6a" || stageId === "6b" || stageId === "6c") {
+                    allMet = isStageComplete("5a") && isStageComplete("5b") && isStageComplete("5c");
+                } else if (stageId === "7a" || stageId === "7b" || stageId === "7c") {
+                    allMet = isStageComplete("6a") && isStageComplete("6b") && isStageComplete("6c");
+                }
+
+                if (allMet) {
+                    stageWrapper.classList.remove('locked');
+                    if (mapNode) {
+                        mapNode.classList.remove('locked');
+                    }
+                } else {
+                    stageWrapper.classList.add('locked');
+                    if (mapNode) {
+                        mapNode.classList.add('locked');
+                    }
+                }
+            });
+
+            // Mirror group wrapper locks for stages represented as multi-lane sub wrappers
+            const groupNumToSubIds = {
+                5: ["5a", "5b", "5c"],
+                6: ["6a", "6b", "6c"],
+                7: ["7a", "7b", "7c"]
+            };
+            
+            Object.keys(groupNumToSubIds).forEach(gNum => {
+                const groupWrapper = document.getElementById(`stage-${gNum}`);
+                if (!groupWrapper) return;
+                
+                const subs = groupNumToSubIds[gNum];
+                const allSubsLocked = subs.every(subId => document.getElementById(`stage-${subId}`).classList.contains('locked'));
+                
+                if (allSubsLocked && locksEnabled) {
+                    groupWrapper.classList.add('locked');
+                } else {
+                    groupWrapper.classList.remove('locked');
+                }
+            });
+
+            // Update connecting line SVGs classes based on node completions
+            updateEdgeVis();
+        }
+
+        function updateEdgeVis() {
+            const isNodeComplete = (id) => {
+                const nodeEl = document.getElementById(`stage-${id}`);
+                if (!nodeEl) return false;
+                const cbList = nodeEl.querySelectorAll('.task-list input[type="checkbox"]');
+                return cbList.length > 0 && Array.from(cbList).every(cb => cb.checked);
+            };
+
+            const isNodeUnlocked = (id) => {
+                const nodeEl = document.getElementById(`stage-${id}`);
+                return nodeEl && !nodeEl.classList.contains('locked');
+            };
+
+            const edges = [
+                { id: 'edge-1-2', parent: '1', child: '2' },
+                { id: 'edge-2-3', parent: '2', child: '3' },
+                { id: 'edge-3-4a', parent: '3', child: '4a' },
+                { id: 'edge-3-4b', parent: '3', child: '4b' },
+                { id: 'edge-4a-5a', parent: '4a', child: '5a' },
+                { id: 'edge-4a-5b', parent: '4a', child: '5b' },
+                { id: 'edge-4b-5b', parent: '4b', child: '5b' },
+                { id: 'edge-4b-5c', parent: '4b', child: '5c' },
+                { id: 'edge-5a-6a', parent: '5a', child: '6a' },
+                { id: 'edge-5b-6b', parent: '5b', child: '6b' },
+                { id: 'edge-5c-6c', parent: '5c', child: '6c' },
+                { id: 'edge-6a-7a', parent: '6a', child: '7a' },
+                { id: 'edge-6b-7b', parent: '6b', child: '7b' },
+                { id: 'edge-6c-7c', parent: '6c', child: '7c' }
+            ];
+
+            edges.forEach(edge => {
+                const el = document.getElementById(edge.id);
+                if (el) {
+                    el.classList.remove('active', 'completed');
+                    if (isNodeComplete(edge.parent)) {
+                        el.classList.add('completed');
+                        el.setAttribute('marker-end', 'url(#arrow-completed)');
+                    } else if (isNodeUnlocked(edge.child)) {
+                        el.classList.add('active');
+                        el.setAttribute('marker-end', 'url(#arrow-active)');
+                    } else {
+                        el.setAttribute('marker-end', 'url(#arrow)');
+                    }
+                }
+            });
+        }
+
+        // Focus toggles for parallel tracks
+        function focusTrack(trackLaneId) {
+            const lane = document.getElementById(trackLaneId);
+            const container = lane.closest('.parallel-tracks-container');
+            const allLanes = container.querySelectorAll('.track-lane');
+
+            // If already focused, unfocus
+            if (lane.classList.contains('focused')) {
+                allLanes.forEach(l => {
+                    l.classList.remove('focused', 'dimmed');
+                    l.querySelector('.track-focus-toggle').textContent = 'Focus on Lane';
+                });
+                return;
+            }
+
+            allLanes.forEach(l => {
+                if (l.id === trackLaneId) {
+                    l.classList.add('focused');
+                    l.classList.remove('dimmed');
+                    l.querySelector('.track-focus-toggle').textContent = 'Unfocus Lane';
+                } else {
+                    l.classList.add('dimmed');
+                    l.classList.remove('focused');
+                    l.querySelector('.track-focus-toggle').textContent = 'Focus on Lane';
+                }
+            });
+        }
+
+        // Scroll top visual
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('btn-scroll-top');
+            if (window.scrollY > 300) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        });
+
+        // Initialize state on DOM load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Restore theme
+            const savedTheme = localStorage.getItem('roadmap-theme-ai') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeToggleButton(savedTheme);
+
+            // List of all topic card IDs
+            const cards = ['card-s1-t1', 'card-s2-t1', 'card-s3-t1', 
+                           'card-s4a-t1', 'card-s4b-t1',
+                           'card-s5a-t1', 'card-s5b-t1', 'card-s5c-t1',
+                           'card-s6a-t1', 'card-s6b-t1', 'card-s6c-t1',
+                           'card-s7a-t1', 'card-s7b-t1', 'card-s7c-t1'];
+
+            // Loop and load from localStorage
+            cards.forEach(cardId => {
+                const card = document.getElementById(cardId);
+                if (!card) return;
+                const checkboxes = card.querySelectorAll('.task-list input[type="checkbox"]');
+                
+                checkboxes.forEach(cb => {
+                    const savedVal = localStorage.getItem(cb.id);
+                    if (savedVal === 'true') {
+                        cb.checked = true;
+                    }
+                });
+
+                updateCardProgress(cardId);
+            });
+
+            // Initial calculation
+            recalculateAllProgress();
+        });
+    </script>
+</body>
+</html>
