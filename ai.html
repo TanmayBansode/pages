@@ -8,873 +8,32 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* Warm Paper Mode (Default Theme) - Soothing & Premium Warmth */
-            --bg-main: #fbf9f6;
-            --bg-card: #ffffff;
-            --bg-code: #f5ede0;
-            --border-card: #ebdcc9;
-            --text-main: #342c26;
-            --text-muted: #7a6b5f;
-            --accent-primary: #9b7e61;
-            --accent-hover: #7d654d;
-            --accent-secondary: #d4ae83;
-            --success: #2e7d32;
-            --success-light: #e8f5e9;
-            --lock-overlay: rgba(251, 249, 246, 0.9);
-            --header-border: #ebdcc9;
-            --shadow-card: 0 4px 24px rgba(155, 126, 97, 0.04);
-            --shadow-glow: 0 0 20px rgba(155, 126, 97, 0.1);
-            
-            --circle-bg: #ebdcc9;
-            --circle-text: #7a6b5f;
-            --line-color: #ebdcc9;
-        }
-
-        [data-theme="dark"] {
-            /* Midnight Obsidian Dark Mode - Low-Contrast Soothing Dark */
-            --bg-main: #0c0f18;
-            --bg-card: #131926;
-            --bg-code: #070a10;
-            --border-card: #1d273a;
-            --text-main: #e2e8f0;
-            --text-muted: #8a99ad;
-            --accent-primary: #38bdf8;
-            --accent-hover: #0ea5e9;
-            --accent-secondary: #6366f1;
-            --success: #10b981;
-            --success-light: rgba(16, 185, 129, 0.08);
-            --lock-overlay: rgba(12, 15, 24, 0.92);
-            --header-border: #1e293b;
-            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
-            --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.15);
-
-            --circle-bg: #1d273a;
-            --circle-text: #8a99ad;
-            --line-color: #1d273a;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            line-height: 1.8;
-            letter-spacing: -0.01em;
-            -webkit-font-smoothing: antialiased;
-            transition: background-color 0.25s ease, color 0.25s ease;
-        }
-
-        .btn-toggle, .btn-copy, .btn-scroll-top, .custom-checkbox, .task-item-label, .graph-node circle, .graph-node text, .graph-edge {
-            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, stroke 0.2s ease, fill 0.2s ease, opacity 0.2s ease;
-        }
-
-        .topic-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-card);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-            position: relative;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        /* Top Sticky Header */
-        .sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background-color: var(--bg-main);
-            border-bottom: 1px solid var(--header-border);
-            padding: 18px 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo-section h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.45rem;
-            margin: 0;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: -0.02em;
-        }
-
-        .logo-section p {
-            margin: 4px 0 0 0;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .controls-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .progress-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-card);
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            box-shadow: var(--shadow-card);
-        }
-
-        .progress-bar-container {
-            width: 100px;
-            height: 6px;
-            background-color: var(--bg-code);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        .btn-toggle {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-card);
-            color: var(--text-main);
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 600;
-            box-shadow: var(--shadow-card);
-        }
-
-        .btn-toggle:hover {
-            border-color: var(--accent-primary);
-        }
-
-        /* Hero and intro section */
-        .hero {
-            max-width: 850px;
-            margin: 60px auto 40px auto;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .hero h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.6rem;
-            font-weight: 700;
-            margin: 0 0 12px 0;
-            line-height: 1.25;
-            color: var(--text-main);
-            letter-spacing: -0.03em;
-        }
-
-        .hero p.lead {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: var(--text-muted);
-            margin: 0 auto;
-            max-width: 650px;
-        }
-
-        /* Interactive Map Visualization */
-        .map-section {
-            max-width: 800px;
-            margin: 0 auto 60px auto;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-card);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: var(--shadow-card);
-        }
-
-        .map-section h3 {
-            margin-top: 0;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem;
-            text-align: center;
-            margin-bottom: 25px;
-            color: var(--accent-primary);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .interactive-graph {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .interactive-graph svg {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* SVG States styling */
-        .graph-node {
-            cursor: pointer;
-        }
-        .graph-node circle {
-            fill: var(--circle-bg);
-            stroke: var(--border-card);
-            stroke-width: 2px;
-            transition: fill 0.3s, stroke 0.3s, opacity 0.3s;
-        }
-        .graph-node text {
-            fill: var(--circle-text);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 11px;
-            font-weight: bold;
-            text-anchor: middle;
-            dominant-baseline: central;
-            pointer-events: none;
-            transition: fill 0.3s, opacity 0.3s;
-        }
-        .graph-edge {
-            stroke: var(--line-color);
-            stroke-width: 2px;
-            fill: none;
-            transition: stroke 0.3s, stroke-width 0.3s;
-        }
-        .graph-node-label {
-            font-size: 10px;
-            fill: var(--text-muted);
-            font-weight: 500;
-        }
-
-        /* SVG Glows and highlights based on status */
-        .graph-node.active circle {
-            stroke: var(--accent-primary);
-            fill: var(--bg-code);
-        }
-        .graph-node.active text {
-            fill: var(--accent-primary);
-        }
-        .graph-node.completed circle {
-            fill: var(--success);
-            stroke: var(--success);
-        }
-        .graph-node.completed text {
-            fill: #ffffff;
-        }
-        .graph-node.locked circle {
-            opacity: 0.4;
-            stroke-dasharray: 4;
-        }
-        .graph-node.locked text {
-            opacity: 0.4;
-        }
-        .graph-edge.active {
-            stroke: var(--accent-primary);
-            stroke-width: 2.5px;
-        }
-        .graph-edge.completed {
-            stroke: var(--success);
-            stroke-width: 2.5px;
-        }
-
-        /* Container Layout for Roadmap */
-        .roadmap-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px 100px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 60px;
-        }
-
-        /* Stage Styling */
-        .stage-wrapper {
-            position: relative;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-card);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: var(--shadow-card);
-            content-visibility: auto;
-            contain-intrinsic-size: 600px;
-        }
-
-        .stage-wrapper.locked {
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .stage-lock-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--lock-overlay);
-            z-index: 10;
-            border-radius: 20px;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            pointer-events: none;
-        }
-
-        .stage-wrapper.locked .stage-lock-overlay {
-            display: flex;
-            pointer-events: auto;
-        }
-
-        .lock-icon-large {
-            font-size: 2.4rem;
-            color: var(--text-muted);
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .lock-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            color: var(--text-main);
-            text-align: center;
-            font-size: 1.15rem;
-        }
-
-        .lock-subtext {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-align: center;
-        }
-
-        .stage-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 1px solid var(--border-card);
-            padding-bottom: 24px;
-            margin-bottom: 35px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .stage-badge {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            color: var(--accent-primary);
-            margin-bottom: 6px;
-        }
-
-        .stage-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.75rem;
-            margin: 0;
-            color: var(--text-main);
-            letter-spacing: -0.02em;
-        }
-
-        .stage-desc {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-top: 10px;
-            max-width: 850px;
-            line-height: 1.7;
-        }
-
-        .stage-progress-badge {
-            background-color: var(--bg-code);
-            border: 1px solid var(--border-card);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        /* Parallel Grid Layout */
-        .parallel-tracks-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            width: 100%;
-        }
-
-        .parallel-tracks-container.two-columns {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        @media (max-width: 992px) {
-            .parallel-tracks-container, .parallel-tracks-container.two-columns {
-                grid-template-columns: 1fr !important;
-            }
-        }
-
-        .track-lane {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
-        }
-
-        .track-banner {
-            text-align: center;
-            background: linear-gradient(135deg, rgba(155, 126, 97, 0.05), rgba(212, 174, 131, 0.05));
-            border: 1px solid var(--border-card);
-            padding: 15px;
-            border-radius: 12px;
-        }
-
-        .track-banner h4 {
-            margin: 0;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem;
-            color: var(--accent-primary);
-        }
-
-
-
-        .topic-card:hover {
-            border-color: var(--accent-primary);
-        }
-
-        .card-header-bar {
-            padding: 24px 28px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            user-select: none;
-            gap: 15px;
-        }
-
-        .card-header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex: 1;
-        }
-
-        /* Custom Card Checkbox */
-        .card-checkbox-wrapper {
-            position: relative;
-            width: 24px;
-            height: 24px;
-            flex-shrink: 0;
-        }
-
-        .card-checkbox-wrapper input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-        .custom-checkbox {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 24px;
-            width: 24px;
-            background-color: var(--bg-code);
-            border: 2px solid var(--accent-primary);
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .card-checkbox-wrapper input:checked ~ .custom-checkbox {
-            background-color: var(--success);
-            border-color: var(--success);
-        }
-
-        .custom-checkbox::after {
-            content: "";
-            position: absolute;
-            display: none;
-            left: 7px;
-            top: 3px;
-            width: 6px;
-            height: 11px;
-            border: solid white;
-            border-width: 0 2.5px 2.5px 0;
-            transform: rotate(45deg);
-        }
-
-        .card-checkbox-wrapper input:checked ~ .custom-checkbox::after {
-            display: block;
-        }
-
-        .topic-titles h4 {
-            margin: 0;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.15rem;
-            color: var(--text-main);
-            letter-spacing: -0.01em;
-        }
-
-        .topic-titles p {
-            margin: 4px 0 0 0;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .card-header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .card-progress-indicator {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            background-color: var(--bg-code);
-            padding: 4px 10px;
-            border-radius: 12px;
-        }
-
-        .chevron-icon {
-            width: 20px;
-            height: 20px;
-            stroke: var(--text-muted);
-            fill: none;
-            stroke-width: 2;
-            transition: transform 0.3s ease;
-        }
-
-        .topic-card.open .chevron-icon {
-            transform: rotate(180deg);
-        }
-
-        /* Card Content (Accordion panel) */
-        .card-content-panel {
-            display: none;
-            border-top: 0px solid transparent;
-        }
-
-        .topic-card.open .card-content-panel {
-            display: block;
-            border-top: 1px solid var(--border-card);
-        }
-
-        .card-inner-body {
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        /* Claude Prompt Box Styling - Auto Height Soothing Layout */
-        .prompt-container {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid var(--border-card);
-            border-radius: 10px;
-            background-color: var(--bg-code);
-            overflow: hidden;
-        }
-
-        .prompt-header {
-            background-color: rgba(155, 126, 97, 0.04);
-            border-bottom: 1px solid var(--border-card);
-            padding: 12px 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .prompt-title-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--accent-primary);
-        }
-
-        .btn-copy {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-card);
-            color: var(--text-main);
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            box-shadow: var(--shadow-card);
-        }
-
-        .btn-copy:hover {
-            border-color: var(--accent-primary);
-        }
-
-        .prompt-body {
-            padding: 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            word-break: break-word;
-            color: var(--text-main);
-            margin: 0;
-            max-height: none;
-            overflow-y: visible;
-            overflow-x: visible;
-        }
-
-        /* Tasks & Resources Lists */
-        .task-list {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .task-item-label {
-            display: flex;
-            align-items: flex-start;
-            cursor: pointer;
-            gap: 14px;
-            font-size: 0.95rem;
-            padding: 10px 16px;
-            border-radius: 8px;
-            border: 1px solid transparent;
-        }
-
-        .task-item-label:hover {
-            background-color: rgba(155, 126, 97, 0.03);
-            border-color: var(--border-card);
-        }
-
-        .task-item-label input[type="checkbox"] {
-            margin-top: 5px;
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: var(--success);
-            flex-shrink: 0;
-        }
-
-        .task-item-text {
-            color: var(--text-main);
-            flex: 1;
-            line-height: 1.6;
-        }
-
-        .task-item-text a {
-            color: var(--accent-primary);
-            text-decoration: none;
-            font-weight: 600;
-            border-bottom: 1.5px solid rgba(155, 126, 97, 0.15);
-        }
-
-        .task-item-text a:hover {
-            border-color: var(--accent-primary);
-        }
-
-        .task-type-badge {
-            font-size: 0.65rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            padding: 3px 7px;
-            border-radius: 4px;
-            margin-right: 8px;
-            letter-spacing: 0.5px;
-            display: inline-block;
-        }
-
-        .badge-read {
-            background-color: rgba(99, 102, 241, 0.08);
-            color: #6366f1;
-        }
-
-        .badge-watch {
-            background-color: rgba(245, 158, 11, 0.08);
-            color: #d97706;
-        }
-
-        .badge-build {
-            background-color: rgba(239, 68, 68, 0.08);
-            color: #ef4444;
-        }
-
-        .badge-interact {
-            background-color: rgba(16, 185, 129, 0.08);
-            color: #10b981;
-        }
-
-        .badge-ask {
-            background-color: rgba(34, 211, 238, 0.08);
-            color: var(--accent-primary);
-        }
-
-        /* Footer styling */
-        footer {
-            text-align: center;
-            padding: 50px 20px;
-            border-top: 1px solid var(--border-card);
-            background-color: var(--bg-card);
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        footer p {
-            margin: 6px 0;
-        }
-
-        /* Keyframe animations */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* Quick Floating Actions */
-        .floating-progress-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 90;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .btn-scroll-top {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-card);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-card);
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.3s ease;
-        }
-
-        .btn-scroll-top.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .btn-scroll-top:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-        }
-
-        /* Help Alert */
-        .setup-guide {
-            max-width: 850px;
-            margin: 0 auto 40px auto;
-            background-color: var(--success-light);
-            border: 1px solid rgba(16, 185, 129, 0.15);
-            border-radius: 12px;
-            padding: 18px 24px;
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-        }
-
-        .setup-guide-icon {
-            font-size: 1.4rem;
-            color: var(--success);
-        }
-
-        .setup-guide-content h4 {
-            margin: 0 0 6px 0;
-            color: var(--text-main);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.05rem;
-        }
-
-        .setup-guide-content p {
-            margin: 0;
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-
-        /* Focus mode indicators for parallel tracks */
-        .track-focus-toggle {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 0.75rem;
-            margin-top: 6px;
-            padding: 3px 8px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            font-weight: 600;
-            background-color: var(--bg-code);
-            border: 1px solid var(--border-card);
-        }
-
-        .track-focus-toggle:hover {
-            color: var(--text-main);
-            border-color: var(--accent-primary);
-        }
-
-        .track-lane.dimmed {
-            opacity: 0.2;
-        }
-
-        .track-lane.focused {
-            transform: scale(1.01);
-        }
-    </style>
+    <!-- Link Shared Styles -->
+    <link rel="stylesheet" href="shared.css">
 </head>
 <body>
 
     <!-- Sticky Header -->
     <div class="sticky-header">
         <div class="header-content">
-            <div class="logo-section">
-                <h1>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                        <polyline points="2 17 12 22 22 17"></polyline>
-                        <polyline points="2 12 12 17 22 12"></polyline>
+            <div class="logo-container-wrapper">
+                <a href="index.html" class="back-home-link" title="Back to Portal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
                     </svg>
-                    AI Systems Core
-                </h1>
-                <p>AI / LLM Developer Roadmap</p>
+                </a>
+                <div class="logo-section">
+                    <h1>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                        AI Systems Core
+                    </h1>
+                    <p>AI / LLM Developer Roadmap</p>
+                </div>
             </div>
             
             <div class="controls-section">
@@ -992,77 +151,77 @@
                 </g>
 
                 <!-- Stage 4a -->
-                <g class="graph-node locked" id="map-node-4a" onclick="scrollToStage('stage-4')">
+                <g class="graph-node locked" id="map-node-4a" onclick="scrollToStage('stage-4a')">
                     <circle cx="200" cy="190" r="18" />
                     <text x="200" y="190">4a</text>
                     <text x="200" y="165" class="graph-node-label">RAG</text>
                 </g>
 
                 <!-- Stage 4b -->
-                <g class="graph-node locked" id="map-node-4b" onclick="scrollToStage('stage-4')">
+                <g class="graph-node locked" id="map-node-4b" onclick="scrollToStage('stage-4b')">
                     <circle cx="400" cy="190" r="18" />
                     <text x="400" y="190">4b</text>
                     <text x="400" y="165" class="graph-node-label">MCP</text>
                 </g>
 
                 <!-- Stage 5a -->
-                <g class="graph-node locked" id="map-node-5a" onclick="scrollToStage('stage-5')">
+                <g class="graph-node locked" id="map-node-5a" onclick="scrollToStage('stage-5a')">
                     <circle cx="150" cy="240" r="18" />
                     <text x="150" y="240">5a</text>
                     <text x="100" y="240" class="graph-node-label">Agentic Loops</text>
                 </g>
 
                 <!-- Node 5b -->
-                <g class="graph-node locked" id="map-node-5b" onclick="scrollToStage('stage-5')">
+                <g class="graph-node locked" id="map-node-5b" onclick="scrollToStage('stage-5b')">
                     <circle cx="300" cy="240" r="18" />
                     <text x="300" y="240">5b</text>
                     <text x="300" y="263" class="graph-node-label">LangGraph</text>
                 </g>
 
                 <!-- Node 5c -->
-                <g class="graph-node locked" id="map-node-5c" onclick="scrollToStage('stage-5')">
+                <g class="graph-node locked" id="map-node-5c" onclick="scrollToStage('stage-5c')">
                     <circle cx="450" cy="240" r="18" />
                     <text x="450" y="240">5c</text>
                     <text x="505" y="240" class="graph-node-label">Multi-Agent</text>
                 </g>
 
                 <!-- Node 6a -->
-                <g class="graph-node locked" id="map-node-6a" onclick="scrollToStage('stage-6')">
+                <g class="graph-node locked" id="map-node-6a" onclick="scrollToStage('stage-6a')">
                     <circle cx="150" cy="290" r="18" />
                     <text x="150" y="290">6a</text>
                     <text x="100" y="290" class="graph-node-label">Evals</text>
                 </g>
 
                 <!-- Node 6b -->
-                <g class="graph-node locked" id="map-node-6b" onclick="scrollToStage('stage-6')">
+                <g class="graph-node locked" id="map-node-6b" onclick="scrollToStage('stage-6b')">
                     <circle cx="300" cy="290" r="18" />
                     <text x="300" y="290">6b</text>
                     <text x="300" y="313" class="graph-node-label">Observability</text>
                 </g>
 
                 <!-- Node 6c -->
-                <g class="graph-node locked" id="map-node-6c" onclick="scrollToStage('stage-6')">
+                <g class="graph-node locked" id="map-node-6c" onclick="scrollToStage('stage-6c')">
                     <circle cx="450" cy="290" r="18" />
                     <text x="450" y="290">6c</text>
                     <text x="500" y="290" class="graph-node-label">Routing</text>
                 </g>
 
                 <!-- Node 7a -->
-                <g class="graph-node locked" id="map-node-7a" onclick="scrollToStage('stage-7')">
+                <g class="graph-node locked" id="map-node-7a" onclick="scrollToStage('stage-7a')">
                     <circle cx="150" cy="340" r="18" />
                     <text x="150" y="340">7a</text>
                     <text x="95" y="340" class="graph-node-label">Guardrails</text>
                 </g>
 
                 <!-- Node 7b -->
-                <g class="graph-node locked" id="map-node-7b" onclick="scrollToStage('stage-7')">
+                <g class="graph-node locked" id="map-node-7b" onclick="scrollToStage('stage-7b')">
                     <circle cx="300" cy="340" r="18" />
                     <text x="300" y="340">7b</text>
                     <text x="300" y="363" class="graph-node-label">Finetuning</text>
                 </g>
 
                 <!-- Node 7c -->
-                <g class="graph-node locked" id="map-node-7c" onclick="scrollToStage('stage-7')">
+                <g class="graph-node locked" id="map-node-7c" onclick="scrollToStage('stage-7c')">
                     <circle cx="450" cy="340" r="18" />
                     <text x="450" y="340">7c</text>
                     <text x="505" y="340" class="graph-node-label">Architecture</text>
@@ -2289,6 +1448,11 @@
 
     </div>
 
+    <!-- Footer -->
+    <footer>
+        <p>made by & for TannyBans</p>
+    </footer>
+
     <!-- Floating UI -->
     <div class="floating-progress-container">
         <button class="btn-scroll-top" id="btn-scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Scroll to Top">
@@ -2296,292 +1460,18 @@
         </button>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>AI / LLM Developer Roadmap</p>
-        <p>Built with Outfit, Space Grotesk, and Plus Jakarta Sans.</p>
-    </footer>
-
-    <!-- Interactive JS Script -->
+    <!-- Setup roadmap specific configuration -->
     <script>
-        // Track Dependency Locking configuration
-        let locksEnabled = true;
-
-        // Theme management
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('roadmap-theme-ai', newTheme);
-            updateThemeToggleButton(newTheme);
-        }
-
-        function updateThemeToggleButton(theme) {
-            const themeToggleIcon = document.getElementById('theme-toggle-icon');
-            if (theme === 'dark') {
-                themeToggleIcon.textContent = '☀️';
-            } else {
-                themeToggleIcon.textContent = '🌙';
-            }
-        }
-
-        // Lock toggler
-        function toggleDependencyLocking() {
-            locksEnabled = !locksEnabled;
-            const btn = document.getElementById('btn-lock-toggle');
-            const label = document.getElementById('lock-toggle-label');
-            const icon = document.getElementById('lock-toggle-icon');
-
-            if (locksEnabled) {
-                btn.style.borderColor = 'var(--accent-primary)';
-                label.textContent = 'Locks Enabled';
-                icon.textContent = '🔒';
-            } else {
-                btn.style.borderColor = 'var(--border-card)';
-                label.textContent = 'Locks Disabled';
-                icon.textContent = '🔓';
-            }
-
-            evaluateLocks();
-        }
-
-        // Accordion functionality
-        function toggleCard(cardId) {
-            const card = document.getElementById(cardId);
-            card.classList.toggle('open');
-        }
-
-        // Copy functionality
-        function copyPrompt(button, promptId) {
-            const promptText = document.getElementById(promptId).innerText;
-            navigator.clipboard.writeText(promptText).then(() => {
-                const originalText = button.innerHTML;
-                button.innerHTML = '✅ Copied!';
-                button.style.borderColor = 'var(--success)';
-                button.style.color = 'var(--success)';
-                setTimeout(() => {
-                    button.innerHTML = originalText;
-                    button.style.borderColor = '';
-                    button.style.color = '';
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
-
-        // Node level check box logic
-        function toggleEntireNode(cardId, masterCheckbox) {
-            const card = document.getElementById(cardId);
-            const checkboxes = card.querySelectorAll('.task-list input[type="checkbox"]');
-            
-            checkboxes.forEach(cb => {
-                cb.checked = masterCheckbox.checked;
-                localStorage.setItem(cb.id, cb.checked);
-            });
-
-            updateCardProgress(cardId);
-            recalculateAllProgress();
-        }
-
-        // Individual sub-task checkbox changes
-        function onTaskChange(cardId) {
-            updateCardProgress(cardId);
-            recalculateAllProgress();
-        }
-
-        // Updates the card progress pill and matches the master checkbox state
-        function updateCardProgress(cardId) {
-            const card = document.getElementById(cardId);
-            const checkboxes = card.querySelectorAll('.task-list input[type="checkbox"]');
-            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
-            
-            // Save state of each checkbox
-            checkboxes.forEach(cb => {
-                localStorage.setItem(cb.id, cb.checked);
-            });
-
-            // Update sub-progress indicators
-            const progressPill = document.getElementById(`progress-text-${cardId.replace('card-', '')}`);
-            if (progressPill) {
-                progressPill.textContent = `${checkedCount}/${checkboxes.length} Tasks`;
-            }
-
-            // Update master check
-            const masterCheck = document.getElementById(`check-node-${cardId.replace('card-', '')}`);
-            if (masterCheck) {
-                masterCheck.checked = (checkedCount === checkboxes.length);
-            }
-        }
-
-        // Scroll to stage
-        function scrollToStage(stageId) {
-            const element = document.getElementById(stageId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                // If stage is locked, add shake effect
-                if (element.classList.contains('locked') && locksEnabled) {
-                    element.style.animation = 'none';
-                    element.offsetHeight; // trigger reflow
-                    element.style.animation = 'float 0.4s ease 2';
-                }
-            }
-        }
-
-        // Helper to check if a stage is 100% completed
-        function isStageComplete(sNum) {
-            const stageEls = document.querySelectorAll(`[data-stage="${sNum}"]`);
-            if (stageEls.length === 0) return false;
-            
-            let allChecked = true;
-            stageEls.forEach(stageEl => {
-                const checkboxes = stageEl.querySelectorAll('.task-list input[type="checkbox"]');
-                const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
-                if (checkboxes.length === 0 || checked < checkboxes.length) {
-                    allChecked = false;
-                }
-            });
-            return allChecked;
-        }
-
-        // Calculate progress for each stage and the overall roadmap
-        function recalculateAllProgress() {
-            const stages = [1, 2, 3, "4a", "4b", "5a", "5b", "5c", "6a", "6b", "6c", "7a", "7b", "7c"];
-            let totalTasks = 0;
-            let totalCheckedTasks = 0;
-
-            stages.forEach(stageId => {
-                const stageEl = document.getElementById(`stage-${stageId}`);
-                if (!stageEl) return;
-                const checkboxes = stageEl.querySelectorAll('.task-list input[type="checkbox"]');
-                const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
-                
-                totalTasks += checkboxes.length;
-                totalCheckedTasks += checked;
-
-                const pct = checkboxes.length > 0 ? Math.round((checked / checkboxes.length) * 100) : 0;
-                
-                const badge = document.getElementById(`progress-stage-${stageId}`);
-                if (badge) {
-                    badge.textContent = `${pct}% Done`;
-                }
-
-                // Update visual representation in SVG map
-                const mapNode = document.getElementById(`map-node-${stageId}`);
-                if (mapNode) {
-                    mapNode.classList.remove('completed', 'active');
-                    if (pct === 100) {
-                        mapNode.classList.add('completed');
-                    } else if (pct > 0) {
-                        mapNode.classList.add('active');
-                    }
-                }
-            });
-
-            // Stage group progresses
-            const groupStages = [1, 2, 3, 5, 6, 7];
-            groupStages.forEach(sNum => {
-                const stageEl = document.getElementById(`stage-${sNum}`);
-                if (!stageEl) return;
-                const checkboxes = stageEl.querySelectorAll('.task-list input[type="checkbox"]');
-                const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
-                const pct = checkboxes.length > 0 ? Math.round((checked / checkboxes.length) * 100) : 0;
-                document.getElementById(`progress-stage-${sNum}`).textContent = `${pct}% Done`;
-            });
-
-            // Update overall text
-            const overallPct = totalTasks > 0 ? Math.round((totalCheckedTasks / totalTasks) * 100) : 0;
-            document.getElementById('overall-progress-bar').style.width = `${overallPct}%`;
-            document.getElementById('overall-progress-text').textContent = `${overallPct}%`;
-
-            // Re-evaluate dependencies locks
-            evaluateLocks();
-        }
-
-        // Lock logic
-        function evaluateLocks() {
-            const stages = ["1", "2", "3", "4a", "4b", "5a", "5b", "5c", "6a", "6b", "6c", "7a", "7b", "7c"];
-
-            stages.forEach(stageId => {
-                const stageWrapper = document.getElementById(`stage-${stageId}`);
-                if (!stageWrapper) return;
-                const mapNode = document.getElementById(`map-node-${stageId}`);
-                
-                if (stageId === "1" || !locksEnabled) {
-                    stageWrapper.classList.remove('locked');
-                    if (mapNode && !mapNode.classList.contains('completed') && !mapNode.classList.contains('active')) {
-                        mapNode.classList.remove('locked');
-                    }
-                    return;
-                }
-
-                // Check prerequisites
-                let allMet = false;
-                if (stageId === "2") {
-                    allMet = isStageComplete(1);
-                } else if (stageId === "3") {
-                    allMet = isStageComplete(2);
-                } else if (stageId === "4a" || stageId === "4b") {
-                    allMet = isStageComplete(3);
-                } else if (stageId === "5a" || stageId === "5b" || stageId === "5c") {
-                    allMet = isStageComplete("4a") && isStageComplete("4b");
-                } else if (stageId === "6a" || stageId === "6b" || stageId === "6c") {
-                    allMet = isStageComplete("5a") && isStageComplete("5b") && isStageComplete("5c");
-                } else if (stageId === "7a" || stageId === "7b" || stageId === "7c") {
-                    allMet = isStageComplete("6a") && isStageComplete("6b") && isStageComplete("6c");
-                }
-
-                if (allMet) {
-                    stageWrapper.classList.remove('locked');
-                    if (mapNode) {
-                        mapNode.classList.remove('locked');
-                    }
-                } else {
-                    stageWrapper.classList.add('locked');
-                    if (mapNode) {
-                        mapNode.classList.add('locked');
-                    }
-                }
-            });
-
-            // Mirror group wrapper locks for stages represented as multi-lane sub wrappers
-            const groupNumToSubIds = {
+        window.roadmapConfig = {
+            themeKey: 'roadmap-theme-ai',
+            stages: ["1", "2", "3", "4a", "4b", "5a", "5b", "5c", "6a", "6b", "6c", "7a", "7b", "7c"],
+            groupStages: [1, 2, 3, 5, 6, 7],
+            groupNumToSubIds: {
                 5: ["5a", "5b", "5c"],
                 6: ["6a", "6b", "6c"],
                 7: ["7a", "7b", "7c"]
-            };
-            
-            Object.keys(groupNumToSubIds).forEach(gNum => {
-                const groupWrapper = document.getElementById(`stage-${gNum}`);
-                if (!groupWrapper) return;
-                
-                const subs = groupNumToSubIds[gNum];
-                const allSubsLocked = subs.every(subId => document.getElementById(`stage-${subId}`).classList.contains('locked'));
-                
-                if (allSubsLocked && locksEnabled) {
-                    groupWrapper.classList.add('locked');
-                } else {
-                    groupWrapper.classList.remove('locked');
-                }
-            });
-
-            // Update connecting line SVGs classes based on node completions
-            updateEdgeVis();
-        }
-
-        function updateEdgeVis() {
-            const isNodeComplete = (id) => {
-                const nodeEl = document.getElementById(`stage-${id}`);
-                if (!nodeEl) return false;
-                const cbList = nodeEl.querySelectorAll('.task-list input[type="checkbox"]');
-                return cbList.length > 0 && Array.from(cbList).every(cb => cb.checked);
-            };
-
-            const isNodeUnlocked = (id) => {
-                const nodeEl = document.getElementById(`stage-${id}`);
-                return nodeEl && !nodeEl.classList.contains('locked');
-            };
-
-            const edges = [
+            },
+            edges: [
                 { id: 'edge-1-2', parent: '1', child: '2' },
                 { id: 'edge-2-3', parent: '2', child: '3' },
                 { id: 'edge-3-4a', parent: '3', child: '4a' },
@@ -2596,96 +1486,27 @@
                 { id: 'edge-6a-7a', parent: '6a', child: '7a' },
                 { id: 'edge-6b-7b', parent: '6b', child: '7b' },
                 { id: 'edge-6c-7c', parent: '6c', child: '7c' }
-            ];
-
-            edges.forEach(edge => {
-                const el = document.getElementById(edge.id);
-                if (el) {
-                    el.classList.remove('active', 'completed');
-                    if (isNodeComplete(edge.parent)) {
-                        el.classList.add('completed');
-                        el.setAttribute('marker-end', 'url(#arrow-completed)');
-                    } else if (isNodeUnlocked(edge.child)) {
-                        el.classList.add('active');
-                        el.setAttribute('marker-end', 'url(#arrow-active)');
-                    } else {
-                        el.setAttribute('marker-end', 'url(#arrow)');
-                    }
+            ],
+            checkPrerequisites(stageId, isStageComplete) {
+                if (stageId === "1") return true;
+                if (stageId === "2") return isStageComplete("1");
+                if (stageId === "3") return isStageComplete("2");
+                if (stageId === "4a" || stageId === "4b") return isStageComplete("3");
+                if (stageId === "5a" || stageId === "5b" || stageId === "5c") {
+                    return isStageComplete("4a") && isStageComplete("4b");
                 }
-            });
-        }
-
-        // Focus toggles for parallel tracks
-        function focusTrack(trackLaneId) {
-            const lane = document.getElementById(trackLaneId);
-            const container = lane.closest('.parallel-tracks-container');
-            const allLanes = container.querySelectorAll('.track-lane');
-
-            // If already focused, unfocus
-            if (lane.classList.contains('focused')) {
-                allLanes.forEach(l => {
-                    l.classList.remove('focused', 'dimmed');
-                    l.querySelector('.track-focus-toggle').textContent = 'Focus on Lane';
-                });
-                return;
-            }
-
-            allLanes.forEach(l => {
-                if (l.id === trackLaneId) {
-                    l.classList.add('focused');
-                    l.classList.remove('dimmed');
-                    l.querySelector('.track-focus-toggle').textContent = 'Unfocus Lane';
-                } else {
-                    l.classList.add('dimmed');
-                    l.classList.remove('focused');
-                    l.querySelector('.track-focus-toggle').textContent = 'Focus on Lane';
+                if (stageId === "6a" || stageId === "6b" || stageId === "6c") {
+                    return isStageComplete("5a") && isStageComplete("5b") && isStageComplete("5c");
                 }
-            });
-        }
-
-        // Scroll top visual
-        window.addEventListener('scroll', () => {
-            const btn = document.getElementById('btn-scroll-top');
-            if (window.scrollY > 300) {
-                btn.classList.add('visible');
-            } else {
-                btn.classList.remove('visible');
+                if (stageId === "7a" || stageId === "7b" || stageId === "7c") {
+                    return isStageComplete("6a") && isStageComplete("6b") && isStageComplete("6c");
+                }
+                return false;
             }
-        });
-
-        // Initialize state on DOM load
-        document.addEventListener('DOMContentLoaded', () => {
-            // Restore theme
-            const savedTheme = localStorage.getItem('roadmap-theme-ai') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeToggleButton(savedTheme);
-
-            // List of all topic card IDs
-            const cards = ['card-s1-t1', 'card-s2-t1', 'card-s3-t1', 
-                           'card-s4a-t1', 'card-s4b-t1',
-                           'card-s5a-t1', 'card-s5b-t1', 'card-s5c-t1',
-                           'card-s6a-t1', 'card-s6b-t1', 'card-s6c-t1',
-                           'card-s7a-t1', 'card-s7b-t1', 'card-s7c-t1'];
-
-            // Loop and load from localStorage
-            cards.forEach(cardId => {
-                const card = document.getElementById(cardId);
-                if (!card) return;
-                const checkboxes = card.querySelectorAll('.task-list input[type="checkbox"]');
-                
-                checkboxes.forEach(cb => {
-                    const savedVal = localStorage.getItem(cb.id);
-                    if (savedVal === 'true') {
-                        cb.checked = true;
-                    }
-                });
-
-                updateCardProgress(cardId);
-            });
-
-            // Initial calculation
-            recalculateAllProgress();
-        });
+        };
     </script>
+    
+    <!-- Link Shared Logic -->
+    <script src="shared.js"></script>
 </body>
 </html>

@@ -8,93 +8,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link Shared Styles -->
+    <link rel="stylesheet" href="shared.css">
+    
     <style>
-        :root {
-            /* Warm Paper Mode (Default Theme) */
-            --bg-main: #fbf9f6;
-            --bg-card: #ffffff;
-            --border-card: #ebdcc9;
-            --text-main: #342c26;
-            --text-muted: #7a6b5f;
-            --accent-primary: #9b7e61;
-            --accent-hover: #7d654d;
-            --shadow-card: 0 4px 24px rgba(155, 126, 97, 0.04);
-            --header-border: #ebdcc9;
-        }
-
-        [data-theme="dark"] {
-            /* Midnight Obsidian Mode */
-            --bg-main: #0c0f18;
-            --bg-card: #121724;
-            --border-card: #1d273a;
-            --text-main: #e2e8f0;
-            --text-muted: #8a99ad;
-            --accent-primary: #38bdf8;
-            --accent-hover: #0ea5e9;
-            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
-            --header-border: #1d273a;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            transition: background-color 0.25s ease, color 0.25s ease;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .btn-toggle {
-            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-        }
-
-        /* Top Sticky Header */
-        .sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background-color: var(--bg-main);
-            border-bottom: 1px solid var(--header-border);
-            padding: 18px 24px;
-        }
-
-        .header-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-section h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.3rem;
-            margin: 0;
-            color: var(--text-main);
-            letter-spacing: -0.02em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo-section span {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            border: 1px solid var(--border-card);
-            padding: 2px 8px;
-            border-radius: 20px;
-        }
-
+        /* Landing Page Specific Card Styles */
         .theme-toggle-btn {
             background-color: var(--bg-card);
             border: 1px solid var(--border-card);
@@ -111,7 +30,7 @@
             border-color: var(--accent-primary);
         }
 
-        /* Hero Section */
+        /* Hero Section spacing adjustment */
         .hero {
             max-width: 800px;
             margin: 80px auto 40px auto;
@@ -291,16 +210,6 @@
         .roadmap-card.coming-soon .card-footer {
             color: var(--text-muted);
         }
-
-        /* Footer styling */
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            border-top: 1px solid var(--header-border);
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            background-color: var(--bg-card);
-        }
     </style>
 </head>
 <body>
@@ -397,34 +306,10 @@
 
     <!-- Footer -->
     <footer>
-        <p>Curated Engineering Roadmaps &copy; 2026</p>
-        <p>Created by TannyBans</p>
+        <p>made by & for TannyBans</p>
     </footer>
 
-    <script>
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('roadmap-theme-portal', newTheme);
-            updateThemeToggleButton(newTheme);
-        }
-
-        function updateThemeToggleButton(theme) {
-            const icon = document.getElementById('theme-toggle-icon');
-            if (theme === 'dark') {
-                icon.textContent = '☀️';
-            } else {
-                icon.textContent = '🌙';
-            }
-        }
-
-        // Initialize theme
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('roadmap-theme-portal') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeToggleButton(savedTheme);
-        });
-    </script>
+    <!-- Link Shared Logic -->
+    <script src="shared.js"></script>
 </body>
 </html>
